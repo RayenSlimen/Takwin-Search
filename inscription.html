@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Créer un compte</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      margin: 100;
+      padding: 500;
+      background: #f9fbfc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      display: flex;
+      gap: 40px;
+    }
+
+    .form-container {
+      max-width: 300px;
+      width: 100%;
+    }
+
+    .form-container h2 {
+      margin-bottom: 10px;
+      font-size: 24px;
+      color: #111;
+    }
+
+    .form-container p {
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .form-container p a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .form-container input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    .form-container button {
+      width: 100%;
+      padding: 12px;
+      background: #007bff;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .image-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .image-container img {
+      max-width: 220px;
+    }
+    .container-image {
+  padding-top: 150px;
+
+  background-image: url("C593F747-CAD1-4E2A-9380-14C469B953DA.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 200%;
+}
+  </style>
+</head>
+<body class="container-image">
+  <div class="container">
+    <div class="form-container">
+      
+
+      
+      <h2>Créer un compte</h2>
+      <p>Vous avez déjà un compte? <a href="#">Connexion</a></p>
+      <form>
+        <input type="text" placeholder="Nom" required />
+        <input type="email" placeholder="Adresse e-mail" required />
+        <input type="password" placeholder="Mot de passe" required />
+        <input type="password" placeholder="Confirmer le mot de passe" required />
+        <button type="submit">S'inscrire</button>
+      </form>
+    </div>
+    <div class="image-container">
+      <img src="E9000209-AB85-4DE7-9A4D-D35A4B488E9E.jpeg" alt="illustration">
+    </div>
+  </div>
+  
+</body>
+</html>
+from django.db import models
+class Utilisateur(models.Model):
+    nom = models.CharField(max_length=100)
+    email = models.EmailField(unique=True)
+    mot_de_passe = models.CharField(max_length=128)
+
+    def __str__(self):
+        return self.email
+from django import forms
+from .models import Utilisateur
+
+class UtilisateurForm(forms.ModelForm):
+    class Meta:
+        model = Utilisateur
+        fields = ['nom', 'email', 'mot_de_passe']
+        widgets = {
+            'mot_de_passe': forms.PasswordInput(attrs={'placeholder': 'Mot de passe'}),
+            'nom': forms.TextInput(attrs={'placeholder': 'Nom'}),
+            'email': forms.EmailInput(attrs={'placeholder': 'Adresse e-mail'}),
+        }
+from django.shortcuts import render, redirect
+from .forms import UtilisateurForm
+
+def inscription(request):
+    if request.method == 'POST':
+        form = UtilisateurForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('inscription')  # توجيه بعد التسجيل
+    else:
+        form = UtilisateurForm()
+    return render(request, 'accounts/inscription.html', {'form': form})
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('inscription/', views.inscription, name='inscription'),
+]
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver

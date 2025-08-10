@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Takwin Search - Inscription</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom right, #e0f7fa, #e3f2fd), url('background.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+
+    header {
+      background-color: #0077cc;
+      color: rgb(255, 255, 255);
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    header img {
+      height: 50px;
+      margin-right: 15px;
+      border-radius: 8px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 26px;
+      
+    }
+    header a {
+      color: #ffffff;
+      flex-direction: row;
+      justify-content: space-between;
+      margin: 0;
+      font-size: 26px;
+      
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    }
+
+    .role-select {
+      margin-bottom: 25px;
+    }
+
+    form {
+      display: none;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .visible {
+      display: block;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 24px;
+      background-color: #0077cc;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #005fa3;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="unnamed.jpg" alt="Logo Takwin Search">
+  <h1>Takwin Search</h1>
+  <div>
+    <a href="login.html" style="color: #ffffff; text-decoration: none; margin-left: 0;">Login</a>
+  </div>
+</header>
+
+<div class="container">
+  <div class="role-select">
+    <label for="role">Choisissez le type d'utilisateur :</label>
+    <select id="role" onchange="afficherFormulaire()">
+      <option value="">-- Choisir --</option>
+      <option value="etudiant">Étudiant</option>
+      <option value="centre">Centre de formation</option>
+    </select>
+  </div>
+
+  <!-- Formulaire Étudiant -->
+  <form id="formEtudiant">
+    <h3>Informations de l'étudiant</h3>
+    <label>Nom</label><input type="text" name="nom">
+    <label>Email</label><input type="email" name="email">
+    <label>Mot de passe</label><input type="password" name="password">
+    <label>Niveau</label><input type="text" name="niveau">
+    <label>Domaine</label><input type="text" name="domaine">
+    <button type="submit">S'inscrire</button>
+  </form>
+
+  <!-- Formulaire Centre -->
+  <form id="formCentre">
+    <h3>Informations du centre de formation</h3>
+    <label>Nom du centre</label><input type="text" name="nom_centre">
+    <label>Email</label><input type="email" name="email">
+    <label>Mot de passe</label><input type="password" name="password">
+    <label>Adresse</label><input type="text" name="adresse">
+    <label>Téléphone</label><input type="text" name="telephone">
+    <button type="submit">S'inscrire</button>
+  </form>
+</div>
+
+<script>
+  function afficherFormulaire() {
+    const role = document.getElementById("role").value;
+    document.getElementById("formEtudiant").classList.remove("visible");
+    document.getElementById("formCentre").classList.remove("visible");
+
+    if (role === "etudiant") {
+      document.getElementById("formEtudiant").classList.add("visible");
+    } else if (role === "centre") {
+      document.getElementById("formCentre").classList.add("visible");
+    }
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recherche de Centres de Formation en Tunisie</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #f5f7fa;
+      color: #333;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      background-color: #e61f2d;
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+      margin-bottom: 30px;
+      border-radius: 8px;
+      background-image: linear-gradient(135deg, #e61f2d 0%, #9c1016 100%);
+    }
+    
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+    
+    .search-section {
+      background-color: white;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+    }
+    
+    .search-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .form-group {
+      flex: 1 1 200px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    
+    button {
+      background-color: #e61f2d;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    button:hover {
+      background-color: #c21922;
+    }
+    
+    .search-btn-container {
+      flex: 1 1 100%;
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 10px;
+    }
+    
+    .results-section {
+      background-color: white;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .results-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .results-count {
+      font-weight: 600;
+      color: #555;
+    }
+    
+    .sort-options select {
+      padding: 8px;
+      width: auto;
+    }
+    
+    .center-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 20px;
+    }
+    
+    .center-card {
+      border: 1px solid #eee;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .center-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .center-image {
+      height: 180px;
+      background-color: #ddd;
+      background-position: center;
+      background-size: cover;
+    }
+    
+    .center-info {
+      padding: 20px;
+    }
+    
+    .center-name {
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+      color: #333;
+    }
+    
+    .center-location {
+      color: #666;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .center-description {
+      color: #555;
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
+    
+    .rating {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 15px;
+    }
+    
+    .star {
+      color: #ffd700;
+    }
+    
+    .center-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+    
+    .tag {
+      background-color: #f0f2f5;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      color: #444;
+    }
+    
+    .center-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .center-price {
+      font-weight: bold;
+      color: #e61f2d;
+    }
+    
+    .btn-details {
+      background-color: transparent;
+      color: #e61f2d;
+      border: 1px solid #e61f2d;
+      padding: 8px 12px;
+    }
+    
+    .btn-details:hover {
+      background-color: #ffebeb;
+    }
+    
+    .pagination {
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+      gap: 10px;
+    }
+    
+    .page-btn {
+      background-color: white;
+      color: #333;
+      border: 1px solid #ddd;
+      padding: 8px 15px;
+      border-radius: 4px;
+    }
+    
+    .page-btn.active {
+      background-color: #e61f2d;
+      color: white;
+      border-color: #e61f2d;
+    }
+    
+    .empty-results {
+      text-align: center;
+      padding: 40px 0;
+      color: #777;
+      font-size: 1.1rem;
+    }
+    
+    /* Ajout d'une bannière de langue */
+    .language-switcher {
+      display: flex;
+      justify-content: flex-end;
+      padding: 10px 0;
+    }
+    
+    .language-btn {
+      background: none;
+      border: none;
+      color: #333;
+      cursor: pointer;
+      padding: 5px 10px;
+      font-size: 0.9rem;
+    }
+    
+    .language-btn.active {
+      font-weight: bold;
+      color: #e61f2d;
+    }
+    
+    /* Style pour les informations de certification */
+    .certification-badge {
+      display: inline-flex;
+      align-items: center;
+      background-color: #f0f8ff;
+      color: #0066cc;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      margin-right: 8px;
+      border: 1px solid #cce5ff;
+    }
+    
+    @media (max-width: 768px) {
+      .center-list {
+        grid-template-columns: 1fr;
+      }
+      
+      .search-form {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="language-switcher">
+      <button class="language-btn active">Français</button>
+      <button class="language-btn">العربية</button>
+      <button class="language-btn">English</button>
+    </div>
+    
+    <header>
+      <h1>TakwinSearch</h1>
+      <p>Trouvez le centre de formation idéal en Tunisie pour votre avenir</p>
+    </header>
+    
+    <section class="search-section">
+      <h2>Rechercher un centre de formation</h2>
+      <form class="search-form" id="searchForm">
+        <div class="form-group">
+          <label for="keyword">Mot-clé</label>
+          <input type="text" id="keyword" placeholder="Développement web, Marketing...">
+        </div>
+        
+        <div class="form-group">
+          <label for="location">Région</label>
+          <select id="location">
+            <option value="">Toutes les régions</option>
+            <option value="tunis">Grand Tunis</option>
+            <option value="sfax">Sfax</option>
+            <option value="sousse">Sousse</option>
+            <option value="bizerte">Bizerte</option>
+            <option value="nabeul">Nabeul</option>
+            <option value="monastir">Monastir</option>
+            <option value="autres">Autres régions</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="category">Catégorie</label>
+          <select id="category">
+            <option value="">Toutes les catégories</option>
+            <option value="dev">Développement informatique</option>
+            <option value="design">Design et multimédia</option>
+            <option value="marketing">Marketing digital</option>
+            <option value="business">Commerce et gestion</option>
+            <option value="languages">Langues</option>
+            <option value="healthcare">Santé</option>
+            <option value="engineering">Ingénierie</option>
+            <option value="tourism">Tourisme et hôtellerie</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="format">Format</label>
+          <select id="format">
+            <option value="">Tous les formats</option>
+            <option value="presentiel">Présentiel</option>
+            <option value="distanciel">À distance</option>
+            <option value="hybride">Hybride</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="certification">Certification</label>
+          <select id="certification">
+            <option value="">Toutes les certifications</option>
+            <option value="etat">Diplôme d'État</option>
+            <option value="international">Certification internationale</option>
+            <option value="professionnel">Certificat professionnel</option>
+          </select>
+        </div>
+        
+        <div class="search-btn-container">
+          <button type="submit" id="searchBtn">Rechercher</button>
+        </div>
+      </form>
+    </section>
+    
+    <section class="results-section">
+      <div class="results-header">
+        <h2>Résultats de recherche</h2>
+        <div class="results-count">12 centres trouvés</div>
+        <div class="sort-options">
+          <label for="sort">Trier par:</label>
+          <select id="sort">
+            <option value="rating">Évaluation</option>
+            <option value="price-asc">Prix croissant</option>
+            <option value="price-desc">Prix décroissant</option>
+            <option value="distance">Distance</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="center-list" id="centerList">
+        <!-- Les centres de formation seront générés ici par JavaScript -->
+      </div>
+      
+      <div class="pagination">
+        <button class="page-btn active">1</button>
+        <button class="page-btn">2</button>
+        <button class="page-btn">3</button>
+        <button class="page-btn">></button>
+      </div>
+    </section>
+  </div>
