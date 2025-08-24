@@ -340,33 +340,36 @@
             </div>
 
             <!-- Formulaire Étudiant -->
-            <form class="signup-form" id="student-form"  action="{% url 'signupUser' %}" method="POST">
+            <form action="{% url 'signup' %}" method="POST">
+                <div class="student-form signup-form">
                 {% csrf_token %}
+                <input type="hidden" name="role" id="roleInput" value="">
+
                 <div class="form-row">
                     <div class="form-group">
                         <label for="student-nom">Prénom</label>
-                        <input type="text" id="student-nom" name="prenom" class="form-input" required>
+                        <input type="text" id="student-nom" name="prenom" class="form-input">
                     </div>
                     <div class="form-group">
                         <label for="student-nom-famille">Nom de famille</label>
-                        <input type="text" id="student-nom-famille" name="nom" class="form-input" required>
+                        <input type="text" id="student-nom-famille" name="nom" class="form-input">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="student-email">Adresse email</label>
-                    <input type="email" id="student-email" name="email" class="form-input" required>
+                    <input type="email" id="student-email" name="email" class="form-input">
                 </div>
 
                 <div class="form-group">
                     <label for="student-password">Mot de passe</label>
-                    <input type="password" id="student-password" name="password" class="form-input" required>
+                    <input type="password" id="student-password" name="password" class="form-input">
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
                         <label for="student-niveau">Niveau d'études</label>
-                        <select id="student-niveau" name="niveau" class="form-input" required>
+                        <select id="student-niveau" name="niveau" class="form-input">
                             <option value="">Sélectionner</option>
                             <option value="bac">Baccalauréat</option>
                             <option value="license">Licence</option>
@@ -376,7 +379,7 @@
                     </div>
                     <div class="form-group">
                         <label for="student-domaine">Domaine d'intérêt</label>
-                        <select id="student-domaine" name="domaine" class="form-input" required>
+                        <select id="student-domaine" name="domaine" class="form-input">
                             <option value="">Sélectionner</option>
                             <option value="informatique">Informatique</option>
                             <option value="marketing">Marketing</option>
@@ -388,43 +391,42 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn-submit">
-                    Créer mon compte étudiant
-                </button>
-            </form>
+                </div>
 
-            <!-- Formulaire Centre -->
-            <form class="signup-form" id="center-form" action="{% url 'signupcentre' %}" method="POST">
+                <div class="center-form signup-form">
+
                 {% csrf_token %} 
                 <div class="form-group">
                     <label for="center-nom">Nom du centre</label>
-                    <input type="text" id="center-nom" name="nom_centre" class="form-input" required>
+                    <input type="text" id="center-nom" name="nom_centre" class="form-input">
                 </div>
 
                 <div class="form-group">
                     <label for="center-email">Adresse email</label>
-                    <input type="email" id="center-email" name="email" class="form-input" required>
+                    <input type="email" id="center-email" name="email" class="form-input">
                 </div>
 
                 <div class="form-group">
                     <label for="center-password">Mot de passe</label>
-                    <input type="password" id="center-password" name="password" class="form-input" required>
+                    <input type="password" id="center-password" name="password" class="form-input">
                 </div>
 
                 <div class="form-group">
                     <label for="center-adresse">Adresse complète</label>
-                    <input type="text" id="center-adresse" name="adresse" class="form-input" required>
+                    <input type="text" id="center-adresse" name="adresse" class="form-input">
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
                         <label for="center-telephone">Téléphone</label>
-                        <input type="tel" id="center-telephone" name="telephone" class="form-input" required>
+                        <input type="tel" id="center-telephone" name="telephone" class="form-input">
                     </div>
 
+                </div>
+                </div>
 
                 <button type="submit" class="btn-submit">
-                    Créer mon compte centre
+                    Créer mon compte
                 </button>
             </form>
 
@@ -442,18 +444,21 @@
 
             // Activate selected role
             if (role === 'student') {
+                document.getElementById('roleInput').value = role;
                 document.getElementById('student-btn').classList.add('active');
-                document.getElementById('student-form').classList.add('active');
+                document.getElementsByClassName('student-form')[0].classList.add('active');
+                document.getElementsByClassName('center-form')[0]
             } else if (role === 'center') {
+                document.getElementById('roleInput').value = role; 
                 document.getElementById('center-btn').classList.add('active');
-                document.getElementById('center-form').classList.add('active');
+                document.getElementsByClassName('center-form')[0].classList.add('active');
             }
         }
 
         // Form validation
         document.querySelectorAll('form').forEach(form => {
             form.addEventListener('submit', function(e) {
-                const inputs = form.querySelectorAll('input[required], select[required]');
+                const inputs = form.querySelectorAll('input], select]');
                 let valid = true;
 
                 inputs.forEach(input => {
