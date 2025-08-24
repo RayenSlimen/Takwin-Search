@@ -1,156 +1,489 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Takwin Search - Inscription</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to bottom right, #e0f7fa, #e3f2fd), url('background.jpg');
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription - Takwin Search</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    header {
-      background-color: #0077cc;
-      color: rgb(255, 255, 255);
-      padding: 15px 30px;
-      display: flex;
-      align-items: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-      flex-direction: row;
-      justify-content: space-between;
-    }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
-    header img {
-      height: 50px;
-      margin-right: 15px;
-      border-radius: 8px;
-    }
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
 
-    header h1 {
-      margin: 0;
-      font-size: 26px;
-      
-    }
-    header a {
-      color: #ffffff;
-      flex-direction: row;
-      justify-content: space-between;
-      margin: 0;
-      font-size: 26px;
-      
-    }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-    .container {
-      max-width: 600px;
-      margin: 40px auto;
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 0 12px rgba(0,0,0,0.1);
-    }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #4f46e5;
+            text-decoration: none;
+        }
 
-    .role-select {
-      margin-bottom: 25px;
-    }
+        .logo i {
+            font-size: 1.75rem;
+        }
 
-    form {
-      display: none;
-    }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
 
-    label {
-      display: block;
-      margin-top: 12px;
-      font-weight: bold;
-    }
+        .nav-link {
+            color: #6b7280;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
 
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
+        .nav-link:hover {
+            color: #4f46e5;
+            background: rgba(79, 70, 229, 0.1);
+        }
 
-    .visible {
-      display: block;
-    }
+        .btn-login {
+            background: #4f46e5;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
 
-    button {
-      margin-top: 20px;
-      padding: 12px 24px;
-      background-color: #0077cc;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 16px;
-    }
+        .btn-login:hover {
+            background: #4338ca;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+        }
 
-    button:hover {
-      background-color: #005fa3;
-    }
-  </style>
+        .main-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .signup-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            padding: 3rem;
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .signup-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #4f46e5, #7c3aed);
+        }
+
+        .signup-title {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .signup-title h1 {
+            font-size: 2rem;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .signup-title p {
+            color: #6b7280;
+            font-size: 1rem;
+        }
+
+        .role-selector {
+            margin-bottom: 2rem;
+        }
+
+        .role-selector label {
+            display: block;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.75rem;
+        }
+
+        .role-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .role-btn {
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1.5rem 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .role-btn:hover {
+            border-color: #4f46e5;
+            background: rgba(79, 70, 229, 0.05);
+        }
+
+        .role-btn.active {
+            border-color: #4f46e5;
+            background: rgba(79, 70, 229, 0.1);
+        }
+
+        .role-btn i {
+            font-size: 2rem;
+            color: #4f46e5;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .role-btn span {
+            font-weight: 600;
+            color: #374151;
+            display: block;
+        }
+
+        .signup-form {
+            display: none;
+        }
+
+        .signup-form.active {
+            display: block;
+            animation: fadeInUp 0.3s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #4f46e5;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .form-footer p {
+            color: #6b7280;
+        }
+
+        .form-footer a {
+            color: #4f46e5;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem;
+            }
+
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .signup-container {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
+            }
+
+            .role-buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
+    <header class="header">
+        <nav class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                Takwin Search
+            </a>
+            <div class="nav-links">
+                <a href="centre_de_formation.html" class="nav-link">Accueil</a>
+                <a href="login.html" class="btn-login">Se connecter</a>
+            </div>
+        </nav>
+    </header>
 
-<header>
-  <img src="unnamed.jpg" alt="Logo Takwin Search">
-  <h1>Takwin Search</h1>
-  <div>
-    <a href="login.html" style="color: #ffffff; text-decoration: none; margin-left: 0;">Login</a>
-  </div>
-</header>
+    <main class="main-content">
+        <div class="signup-container">
+            <div class="signup-title">
+                <h1>Créer un compte</h1>
+                <p>Rejoignez notre plateforme de formation</p>
+            </div>
 
-<div class="container">
-  <div class="role-select">
-    <label for="role">Choisissez le type d'utilisateur :</label>
-    <select id="role" onchange="afficherFormulaire()">
-      <option value="">-- Choisir --</option>
-      <option value="etudiant">Étudiant</option>
-      <option value="centre">Centre de formation</option>
-    </select>
-  </div>
+            <div class="role-selector">
+                <label>Je suis :</label>
+                <div class="role-buttons">
+                    <div class="role-btn" onclick="selectRole('student')" id="student-btn">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>Étudiant</span>
+                    </div>
+                    <div class="role-btn" onclick="selectRole('center')" id="center-btn">
+                        <i class="fas fa-building"></i>
+                        <span>Centre de formation</span>
+                    </div>
+                </div>
+            </div>
 
-  <!-- Formulaire Étudiant -->
-  <form id="formEtudiant">
-    <h3>Informations de l'étudiant</h3>
-    <label>Nom</label><input type="text" name="nom">
-    <label>Email</label><input type="email" name="email">
-    <label>Mot de passe</label><input type="password" name="password">
-    <label>Niveau</label><input type="text" name="niveau">
-    <label>Domaine</label><input type="text" name="domaine">
-    <button type="submit">S'inscrire</button>
-  </form>
+            <!-- Formulaire Étudiant -->
+            <form class="signup-form" id="student-form"  action="{% url 'signupUser' %}" method="POST">
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="student-nom">Prénom</label>
+                        <input type="text" id="student-nom" name="prenom" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="student-nom-famille">Nom de famille</label>
+                        <input type="text" id="student-nom-famille" name="nom" class="form-input" required>
+                    </div>
+                </div>
 
-  <!-- Formulaire Centre -->
-  <form id="formCentre">
-    <h3>Informations du centre de formation</h3>
-    <label>Nom du centre</label><input type="text" name="nom_centre">
-    <label>Email</label><input type="email" name="email">
-    <label>Mot de passe</label><input type="password" name="password">
-    <label>Adresse</label><input type="text" name="adresse">
-    <label>Téléphone</label><input type="text" name="telephone">
-    <button type="submit">S'inscrire</button>
-  </form>
-</div>
+                <div class="form-group">
+                    <label for="student-email">Adresse email</label>
+                    <input type="email" id="student-email" name="email" class="form-input" required>
+                </div>
 
-<script>
-  function afficherFormulaire() {
-    const role = document.getElementById("role").value;
-    document.getElementById("formEtudiant").classList.remove("visible");
-    document.getElementById("formCentre").classList.remove("visible");
+                <div class="form-group">
+                    <label for="student-password">Mot de passe</label>
+                    <input type="password" id="student-password" name="password" class="form-input" required>
+                </div>
 
-    if (role === "etudiant") {
-      document.getElementById("formEtudiant").classList.add("visible");
-    } else if (role === "centre") {
-      document.getElementById("formCentre").classList.add("visible");
-    }
-  }
-</script>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="student-niveau">Niveau d'études</label>
+                        <select id="student-niveau" name="niveau" class="form-input" required>
+                            <option value="">Sélectionner</option>
+                            <option value="bac">Baccalauréat</option>
+                            <option value="license">Licence</option>
+                            <option value="master">Master</option>
+                            <option value="doctorat">Doctorat</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="student-domaine">Domaine d'intérêt</label>
+                        <select id="student-domaine" name="domaine" class="form-input" required>
+                            <option value="">Sélectionner</option>
+                            <option value="informatique">Informatique</option>
+                            <option value="marketing">Marketing</option>
+                            <option value="finance">Finance</option>
+                            <option value="design">Design</option>
+                            <option value="langues">Langues</option>
+                            <option value="autre">Autre</option>
+                        </select>
+                    </div>
+                </div>
 
+                <button type="submit" class="btn-submit">
+                    Créer mon compte étudiant
+                </button>
+            </form>
+
+            <!-- Formulaire Centre -->
+            <form class="signup-form" id="center-form" action="{% url 'signupcentre' %}" method="POST">
+                {% csrf_token %} 
+                <div class="form-group">
+                    <label for="center-nom">Nom du centre</label>
+                    <input type="text" id="center-nom" name="nom_centre" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="center-email">Adresse email</label>
+                    <input type="email" id="center-email" name="email" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="center-password">Mot de passe</label>
+                    <input type="password" id="center-password" name="password" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="center-adresse">Adresse complète</label>
+                    <input type="text" id="center-adresse" name="adresse" class="form-input" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="center-telephone">Téléphone</label>
+                        <input type="tel" id="center-telephone" name="telephone" class="form-input" required>
+                    </div>
+
+
+                <button type="submit" class="btn-submit">
+                    Créer mon compte centre
+                </button>
+            </form>
+
+            <div class="form-footer">
+                <p>Vous avez déjà un compte ? <a href="login.html">Se connecter</a></p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function selectRole(role) {
+            // Reset all buttons and forms
+            document.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.signup-form').forEach(form => form.classList.remove('active'));
+
+            // Activate selected role
+            if (role === 'student') {
+                document.getElementById('student-btn').classList.add('active');
+                document.getElementById('student-form').classList.add('active');
+            } else if (role === 'center') {
+                document.getElementById('center-btn').classList.add('active');
+                document.getElementById('center-form').classList.add('active');
+            }
+        }
+
+        // Form validation
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                const inputs = form.querySelectorAll('input[required], select[required]');
+                let valid = true;
+
+                inputs.forEach(input => {
+                    if (!input.value.trim()) {
+                        input.style.borderColor = '#ef4444';
+                        valid = false;
+                    } else {
+                        input.style.borderColor = '#e5e7eb';
+                    }
+                });
+
+                if (!valid) {
+                    e.preventDefault();
+                    alert('Veuillez remplir tous les champs obligatoires.');
+                }
+            });
+        });
+
+        // Input focus effects
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.style.borderColor = '#4f46e5';
+            });
+
+            input.addEventListener('blur', function() {
+                if (!this.value) {
+                    this.style.borderColor = '#e5e7eb';
+                }
+            });
+        });
+    </script>
 </body>
 </html>

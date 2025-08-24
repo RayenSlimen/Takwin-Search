@@ -1,393 +1,2032 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" dir="ltr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Recherche de Centres de Formation en Tunisie</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    
-    body {
-      background-color: #f5f7fa;
-      color: #333;
-      line-height: 1.6;
-    }
-    
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    
-    header {
-      background-color: #e61f2d;
-      color: white;
-      padding: 20px 0;
-      text-align: center;
-      margin-bottom: 30px;
-      border-radius: 8px;
-      background-image: linear-gradient(135deg, #e61f2d 0%, #9c1016 100%);
-    }
-    
-    header h1 {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-    }
-    
-    .search-section {
-      background-color: white;
-      padding: 25px;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      margin-bottom: 30px;
-    }
-    
-    .search-form {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      margin-bottom: 20px;
-    }
-    
-    .form-group {
-      flex: 1 1 200px;
-    }
-    
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 600;
-    }
-    
-    input, select {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      font-size: 16px;
-    }
-    
-    button {
-      background-color: #e61f2d;
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 4px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    
-    button:hover {
-      background-color: #c21922;
-    }
-    
-    .search-btn-container {
-      flex: 1 1 100%;
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 10px;
-    }
-    
-    .results-section {
-      background-color: white;
-      padding: 25px;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-    
-    .results-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    
-    .results-count {
-      font-weight: 600;
-      color: #555;
-    }
-    
-    .sort-options select {
-      padding: 8px;
-      width: auto;
-    }
-    
-    .center-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-      gap: 20px;
-    }
-    
-    .center-card {
-      border: 1px solid #eee;
-      border-radius: 8px;
-      overflow: hidden;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    
-    .center-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
-    
-    .center-image {
-      height: 180px;
-      background-color: #ddd;
-      background-position: center;
-      background-size: cover;
-    }
-    
-    .center-info {
-      padding: 20px;
-    }
-    
-    .center-name {
-      font-size: 1.2rem;
-      margin-bottom: 8px;
-      color: #333;
-    }
-    
-    .center-location {
-      color: #666;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    
-    .center-description {
-      color: #555;
-      margin-bottom: 15px;
-      line-height: 1.5;
-    }
-    
-    .rating {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      margin-bottom: 15px;
-    }
-    
-    .star {
-      color: #ffd700;
-    }
-    
-    .center-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 15px;
-    }
-    
-    .tag {
-      background-color: #f0f2f5;
-      padding: 5px 10px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      color: #444;
-    }
-    
-    .center-actions {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    .center-price {
-      font-weight: bold;
-      color: #e61f2d;
-    }
-    
-    .btn-details {
-      background-color: transparent;
-      color: #e61f2d;
-      border: 1px solid #e61f2d;
-      padding: 8px 12px;
-    }
-    
-    .btn-details:hover {
-      background-color: #ffebeb;
-    }
-    
-    .pagination {
-      display: flex;
-      justify-content: center;
-      margin-top: 30px;
-      gap: 10px;
-    }
-    
-    .page-btn {
-      background-color: white;
-      color: #333;
-      border: 1px solid #ddd;
-      padding: 8px 15px;
-      border-radius: 4px;
-    }
-    
-    .page-btn.active {
-      background-color: #e61f2d;
-      color: white;
-      border-color: #e61f2d;
-    }
-    
-    .empty-results {
-      text-align: center;
-      padding: 40px 0;
-      color: #777;
-      font-size: 1.1rem;
-    }
-    
-    /* Ajout d'une bannière de langue */
-    .language-switcher {
-      display: flex;
-      justify-content: flex-end;
-      padding: 10px 0;
-    }
-    
-    .language-btn {
-      background: none;
-      border: none;
-      color: #333;
-      cursor: pointer;
-      padding: 5px 10px;
-      font-size: 0.9rem;
-    }
-    
-    .language-btn.active {
-      font-weight: bold;
-      color: #e61f2d;
-    }
-    
-    /* Style pour les informations de certification */
-    .certification-badge {
-      display: inline-flex;
-      align-items: center;
-      background-color: #f0f8ff;
-      color: #0066cc;
-      padding: 3px 8px;
-      border-radius: 12px;
-      font-size: 0.8rem;
-      margin-right: 8px;
-      border: 1px solid #cce5ff;
-    }
-    
-    @media (max-width: 768px) {
-      .center-list {
-        grid-template-columns: 1fr;
-      }
-      
-      .search-form {
-        flex-direction: column;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TakwinSearch - Votre Guide Formation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .container1 {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #667eea;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #667eea;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            text-align: center;
+            color: white;
+            z-index: 2;
+            animation: fadeInUp 1s ease-out;
+            width: 100%;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Enhanced Search Container */
+        .search-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            position: relative;
+        }
+
+        .search-box {
+            display: flex;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            padding: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .search-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            border-radius: 25px;
+            outline: none;
+            background: transparent;
+        }
+
+        .search-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Real-time Search Dropdown */
+        .search-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 10px;
+            right: 10px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-height: 400px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            margin-top: 5px;
+        }
+
+        .search-dropdown.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .dropdown-item:hover {
+            background: #f8f9ff;
+            transform: translateX(5px);
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+            border-radius: 0 0 15px 15px;
+        }
+
+        .dropdown-item:first-child {
+            border-radius: 15px 15px 0 0;
+        }
+
+        .dropdown-icon {
+            background: #667eea;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .dropdown-content {
+            flex: 1;
+        }
+
+        .dropdown-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .dropdown-subtitle {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .dropdown-rating {
+            color: #ffc107;
+            font-size: 0.8rem;
+            margin-top: 3px;
+        }
+
+        /* Quick Search Tags */
+        .quick-search {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .quick-tag {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .quick-tag:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 5rem 0;
+            background: white;
+            position: relative;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 20px;
+            background: linear-gradient(145deg, #f0f2ff, #e8ebff);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Center Detail Page */
+        .center-page {
+            display: none;
+            padding: 120px 0 40px 0;
+            background: white;
+            min-height: 100vh;
+        }
+
+        .center-page.active {
+            display: block;
+        }
+
+        .center-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 3rem;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .center-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-opacity=".1"/><stop offset="100%" stop-opacity="0"/></radialGradient></defs><rect width="100" height="20" fill="url(%23a)"/></svg>');
+        }
+
+        .center-info-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .center-details {
+            background: #f8f9ff;
+            padding: 2rem;
+            border-radius: 15px;
+        }
+
+        .center-sidebar {
+            background: #f8f9ff;
+            padding: 2rem;
+            border-radius: 15px;
+            height: fit-content;
+        }
+
+        .detail-section {
+            margin-bottom: 2rem;
+        }
+
+        .detail-section h3 {
+            color: #333;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .specialties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .specialty-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .specialty-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-info {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding: 8px 0;
+        }
+
+        .contact-icon {
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: #f8f9ff;
+            padding: 5rem 0;
+            text-align: center;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 40px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            border: none;
+            outline:none;
+            cursor: pointer;
+        }
+        .cta-button:focus,
+        .cta-button:active,
+        .cta-button:hover {
+            border: none;
+            outline: none;
+            text-decoration: none;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        /* Google Maps Integration */
+        .map-container {
+            height: 300px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .map-placeholder {
+            height: 100%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .map-placeholder:hover {
+            transform: scale(1.02);
+        }
+
+        /* Rating System */
+        .rating-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+
+        .rating-overview {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .rating-summary {
+            text-align: center;
+            padding: 1rem;
+            background: #f8f9ff;
+            border-radius: 10px;
+        }
+
+        .rating-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .rating-stars-large {
+            font-size: 1.5rem;
+            color: #ffc107;
+            margin-bottom: 1rem;
+        }
+
+        .rating-breakdown {
+            padding: 1rem;
+        }
+
+        .rating-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .rating-bar-fill {
+            flex: 1;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .rating-bar-inner {
+            height: 100%;
+            background: #ffc107;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .add-rating {
+            background: #f8f9ff;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .rating-input {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 5px;
+        }
+
+        .star {
+            font-size: 2rem;
+            color: #e0e0e0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .star:hover,
+        .star.active {
+            color: #ffc107;
+            transform: scale(1.1);
+        }
+
+        .reviews-list {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .review-item {
+            background: #f8f9ff;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #667eea;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .review-author {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .review-date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .review-stars {
+            color: #ffc107;
+            margin-bottom: 8px;
+        }
+
+        .review-text {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .back-btn {
+            background: #6c757d;
+            color: white;
+            margin-bottom: 2rem;
+        }
+
+        .back-btn:hover {
+            background: #5a6268;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 10001;
+            max-width: 300px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.error {
+            background: #dc3545;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                border-radius: 20px;
+            }
+            
+            .search-input,
+            .search-btn {
+                border-radius: 15px;
+                margin: 5px 0;
+            }
+
+            .center-info-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .rating-overview {
+                grid-template-columns: 1fr;
+            }
+
+            .specialties-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <div class="language-switcher">
-      <button class="language-btn active">Français</button>
-      <button class="language-btn">العربية</button>
-      <button class="language-btn">English</button>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <a class="logo" onclick="showHomePage()">🎓 TakwinSearch</a>
+            <ul class="nav-links">
+                <li><a onclick="showHomePage()">Accueil</a></li>
+                <li><a onclick="showAllCenters()">Centres</a></li>
+                <li><a onclick="showContact()">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Home Page -->
+    <div id="homePage">
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Découvrez Votre Avenir Professionnel</h1>
+                    <p>Le guide complet de tous les centres de formation professionnelle et technique du pays. Trouvez la spécialité qui vous convient et commencez votre parcours vers le succès</p>
+                    
+                    <div class="search-container">
+                        <div class="search-box">
+                            <input type="text" class="search-input" placeholder="Rechercher par ville ou spécialité..." id="searchInput" autocomplete="off">
+                            <button class="search-btn" onclick="performSearch()">🔍 Rechercher</button>
+                        </div>
+                        <div class="search-dropdown" id="searchDropdown"></div>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <h2 class="section-title">Pourquoi choisir notre plateforme ?</h2>
+                <p class="section-subtitle">Nous vous offrons tout ce dont vous avez besoin pour prendre la bonne décision dans votre parcours professionnel</p>
+                
+                <div class="features-grid">
+                    <div class="feature-card" onclick="showAllCenters()">
+                        <div class="feature-icon">🏢</div>
+                        <h3>Centres Accrédités</h3>
+                        <p>Tous les centres répertoriés sur notre plateforme sont officiellement accrédités et délivrent des certifications reconnues sur le marché du travail</p>
+                        <button class="btn btn-primary">Voir les centres</button>
+                    </div>
+                    
+                    <div class="feature-card" onclick="showAllSpecialties()">
+                        <div class="feature-icon">📚</div>
+                        <h3>Spécialités Diversifiées</h3>
+                        <p>Plus de 120 spécialités professionnelles et techniques dans divers domaines allant de la technologie à la santé</p>
+                        <button class="btn btn-primary">Explorer les spécialités</button>
+                    </div>
+                    
+                    <div class="feature-card" onclick="showNearestCenters()">
+                        <div class="feature-icon">📍</div>
+                        <h3>Emplacements Proches</h3>
+                        <p>Trouvez les centres de formation les plus proches de votre localisation avec intégration Google Maps</p>
+                        <button class="btn btn-primary">Recherche par localisation</button>
+                        
+                    </div>
+                </div>
+            </div>
+        </section>
+    
+        <section class="cta">
+            <div class="container1">
+                <h2 class="section-title">Commencez votre parcours professionnel aujourd'hui</h2>
+                <p class="section-subtitle">Rejoignez des milliers d'étudiants qui ont transformé leur avenir grâce à la formation professionnelle appropriée</p>
+            
+                <button onclick="window.location.href='signup.html'" class="cta-button"  >S'inscrire maintenant</button>
+                <button onclick="window.location.href='login.html'" class="cta-button" style="background: linear-gradient(45deg, #28a745, #20c997);">Se connecter</button>
+            </div>
+        </section>
     </div>
     
-    <header>
-      <h1>TakwinSearch</h1>
-      <p>Trouvez le centre de formation idéal en Tunisie pour votre avenir</p>
-    </header>
-    
-    <section class="search-section">
-      <h2>Rechercher un centre de formation</h2>
-      <form class="search-form" id="searchForm">
-        <div class="form-group">
-          <label for="keyword">Mot-clé</label>
-          <input type="text" id="keyword" placeholder="Développement web, Marketing...">
+
+    <!-- Center Detail Page -->
+    <div id="centerPage" class="center-page">
+        <div class="container">
+            <button class="btn back-btn" onclick="showHomePage()">← Retour à l'accueil</button>
+            
+            <div class="center-header">
+                <div class="container">
+                    <h1 id="centerName">Nom du Centre</h1>
+                    <p id="centerDescription">Description du centre de formation</p>
+                </div>
+            </div>
+
+            <div class="center-info-grid">
+                <div class="center-details">
+                    <div class="detail-section">
+                        <h3>🎯 Spécialités Disponibles</h3>
+                        <div class="specialties-grid" id="centerSpecialties">
+                            <!-- Specialties will be loaded here -->
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>📍 Localisation</h3>
+                        <div class="map-container" id="mapContainer">
+                            <div class="map-placeholder" onclick="openGoogleMaps()">
+                                <div>
+                                    <div style="font-size: 3rem; margin-bottom: 1rem;">🗺️</div>
+                                    <div>Cliquez pour ouvrir dans Google Maps</div>
+                                    <div style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">Voir l'itinéraire et les environs</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rating-section">
+                        <h3>⭐ Évaluations et Avis</h3>
+                        
+                        <div class="rating-overview">
+                            <div class="rating-summary">
+                                <div class="rating-number" id="avgRating">0.0</div>
+                                <div class="rating-stars-large" id="avgStars"></div>
+                                <div>Basé sur <span id="reviewCount">0</span> avis</div>
+                            </div>
+                            
+                            <div class="rating-breakdown" id="ratingBreakdown">
+                                <!-- Rating bars will be generated here -->
+                            </div>
+                        </div>
+
+                        <div class="add-rating">
+                            <h4>Ajoutez votre avis</h4>
+                            <div class="form-group">
+                                <label>Votre nom</label>
+                                <input type="text" id="reviewerName" placeholder="Entrez votre nom">
+                            </div>
+                            <div class="rating-input">
+                                <label>Note :</label>
+                                <div class="star-rating" id="starRating">
+                                    <span class="star" data-rating="1">★</span>
+                                    <span class="star" data-rating="2">★</span>
+                                    <span class="star" data-rating="3">★</span>
+                                    <span class="star" data-rating="4">★</span>
+                                    <span class="star" data-rating="5">★</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Votre commentaire</label>
+                                <textarea id="reviewComment" rows="4" placeholder="Partagez votre expérience..."></textarea>
+                            </div>
+                            <button class="btn btn-success" onclick="submitReview()">Publier l'avis</button>
+                        </div>
+
+                        <div class="reviews-list" id="reviewsList">
+                            <!-- Reviews will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="center-sidebar">
+                    <div class="contact-info">
+                        <h3>📞 Informations de Contact</h3>
+                        <div class="contact-item">
+                            <div class="contact-icon">📍</div>
+                            <div id="centerAddress">Adresse</div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">📞</div>
+                            <div id="centerPhone">Téléphone</div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">✉️</div>
+                            <div id="centerEmail">Email</div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">🏢</div>
+                            <div id="centerType">Type</div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">⏱️</div>
+                            <div id="centerDuration">Durée</div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">💼</div>
+                            <div id="centerEmployment">Taux d'emploi</div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="contactCenter()" style="width: 100%; margin-top: 1rem;">
+                        Contacter le centre
+                    </button>
+                </div>
+            </div>
         </div>
-        
-        <div class="form-group">
-          <label for="location">Région</label>
-          <select id="location">
-            <option value="">Toutes les régions</option>
-            <option value="tunis">Grand Tunis</option>
-            <option value="sfax">Sfax</option>
-            <option value="sousse">Sousse</option>
-            <option value="bizerte">Bizerte</option>
-            <option value="nabeul">Nabeul</option>
-            <option value="monastir">Monastir</option>
-            <option value="autres">Autres régions</option>
-          </select>
-        </div>
-        
-        <div class="form-group">
-          <label for="category">Catégorie</label>
-          <select id="category">
-            <option value="">Toutes les catégories</option>
-            <option value="dev">Développement informatique</option>
-            <option value="design">Design et multimédia</option>
-            <option value="marketing">Marketing digital</option>
-            <option value="business">Commerce et gestion</option>
-            <option value="languages">Langues</option>
-            <option value="healthcare">Santé</option>
-            <option value="engineering">Ingénierie</option>
-            <option value="tourism">Tourisme et hôtellerie</option>
-          </select>
-        </div>
-        
-        <div class="form-group">
-          <label for="format">Format</label>
-          <select id="format">
-            <option value="">Tous les formats</option>
-            <option value="presentiel">Présentiel</option>
-            <option value="distanciel">À distance</option>
-            <option value="hybride">Hybride</option>
-          </select>
-        </div>
-        
-        <div class="form-group">
-          <label for="certification">Certification</label>
-          <select id="certification">
-            <option value="">Toutes les certifications</option>
-            <option value="etat">Diplôme d'État</option>
-            <option value="international">Certification internationale</option>
-            <option value="professionnel">Certificat professionnel</option>
-          </select>
-        </div>
-        
-        <div class="search-btn-container">
-          <button type="submit" id="searchBtn">Rechercher</button>
-        </div>
-      </form>
-    </section>
-    
-    <section class="results-section">
-      <div class="results-header">
-        <h2>Résultats de recherche</h2>
-        <div class="results-count">12 centres trouvés</div>
-        <div class="sort-options">
-          <label for="sort">Trier par:</label>
-          <select id="sort">
-            <option value="rating">Évaluation</option>
-            <option value="price-asc">Prix croissant</option>
-            <option value="price-desc">Prix décroissant</option>
-            <option value="distance">Distance</option>
-          </select>
-        </div>
-      </div>
-      
-      <div class="center-list" id="centerList">
-        <!-- Les centres de formation seront générés ici par JavaScript -->
-      </div>
-      
-      <div class="pagination">
-        <button class="page-btn active">1</button>
-        <button class="page-btn">2</button>
-        <button class="page-btn">3</button>
-        <button class="page-btn">></button>
-      </div>
-    </section>
-  </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // Base de données des centres de formation
+        const trainingCenters = [
+            {
+                id: 1,
+                name: "Centre de Formation Professionnelle Hay Elkhadra",
+                city: "Tunis",
+                specialties: ["Technologies de l'Information", "Électronique", "Mécanique Générale", "Réfrigération et Climatisation"],
+                type: "Public",
+                phone: "71 234 567",
+                email: "cfp.hayelkhadra@education.tn",
+                address: "Avenue Habib Bourguiba, Hay Elkhadra, Tunis 1003",
+                coordinates: { lat: 36.8065, lng: 10.1815 },
+                rating: 4.5,
+                employmentRate: 92,
+                duration: "12-18 mois",
+                description: "Centre de formation moderne spécialisé dans les technologies et les métiers techniques. Équipements de pointe et formation pratique de qualité.",
+                reviews: [
+                    {
+                        id: 1,
+                        author: "Ahmed Ben Salem",
+                        rating: 5,
+                        comment: "Excellente formation en informatique. Les professeurs sont compétents et l'équipement est moderne.",
+                        date: "2024-01-15"
+                    },
+                    {
+                        id: 2,
+                        author: "Fatma Gharbi",
+                        rating: 4,
+                        comment: "Très bonne expérience, formation pratique et aide à l'emploi efficace.",
+                        date: "2024-02-10"
+                    }
+                ]
+            },
+            {
+                id: 2,
+                name: "Centre de Formation et d'Apprentissage Ariana",
+                city: "Ariana",
+                specialties: ["Bâtiment et Travaux Publics", "Menuiserie", "Soudure", "Plomberie"],
+                type: "Public",
+                phone: "71 345 678",
+                email: "cfa.ariana@education.tn",
+                address: "Route de Bizerte, Ariana 2080",
+                coordinates: { lat: 36.8625, lng: 10.1956 },
+                rating: 4.2,
+                employmentRate: 88,
+                duration: "10-12 mois",
+                description: "Centre spécialisé dans les métiers du bâtiment et de l'artisanat. Formation pratique en atelier avec encadrement professionnel.",
+                reviews: [
+                    {
+                        id: 3,
+                        author: "Mohamed Trabelsi",
+                        rating: 4,
+                        comment: "Formation solide en menuiserie, bon encadrement et ateliers bien équipés.",
+                        date: "2024-01-20"
+                    }
+                ]
+            },
+            {
+                id: 3,
+                name: "Institut Horizon Informatique et Gestion",
+                city: "Tunis",
+                specialties: ["Programmation Avancée", "Développement d'Applications Mobiles", "Sécurité Informatique", "Intelligence Artificielle"],
+                type: "Privé",
+                phone: "71 567 890",
+                email: "contact@horizon-institute.tn",
+                address: "12 Avenue de la Liberté, Centre-ville, Tunis 1001",
+                coordinates: { lat: 36.8008, lng: 10.1817 },
+                rating: 4.8,
+                employmentRate: 96,
+                duration: "18-24 mois",
+                description: "Institut privé de référence en informatique et nouvelles technologies. Formation de haut niveau avec stages en entreprise garantis.",
+                reviews: [
+                    {
+                        id: 4,
+                        author: "Salma Khiari",
+                        rating: 5,
+                        comment: "Formation exceptionnelle en développement mobile. J'ai trouvé un emploi avant même la fin de ma formation!",
+                        date: "2024-02-05"
+                    },
+                    {
+                        id: 5,
+                        author: "Youssef Mansouri",
+                        rating: 5,
+                        comment: "Professeurs experts et programme très à jour. Recommandé à 100%!",
+                        date: "2024-01-28"
+                    }
+                ]
+            },
+            {
+                id: 4,
+                name: "École Supérieure de Santé et Soins Infirmiers",
+                city: "Tunis",
+                specialties: ["Soins Infirmiers Spécialisés", "Assistance Médicale", "Techniques de Laboratoire", "Premiers Secours"],
+                type: "Privé",
+                phone: "71 678 901",
+                email: "info@ecole-sante.tn",
+                address: "Rue de la Santé, Menzah 6, Tunis 1004",
+                coordinates: { lat: 36.8518, lng: 10.1896 },
+                rating: 4.7,
+                employmentRate: 94,
+                duration: "24-30 mois",
+                description: "École spécialisée dans la formation paramédicale. Partenariats avec les hôpitaux publics et privés pour la formation pratique.",
+                reviews: [
+                    {
+                        id: 6,
+                        author: "Nour Bouzid",
+                        rating: 5,
+                        comment: "Formation complète et très professionnelle. Stages en hôpitaux excellents.",
+                        date: "2024-02-12"
+                    }
+                ]
+            },
+            {
+                id: 5,
+                name: "Centre de Formation Professionnelle Sfax Centre-Ville",
+                city: "Sfax",
+                specialties: ["Industries Alimentaires", "Marketing et Commerce", "Comptabilité", "Secrétariat"],
+                type: "Public",
+                phone: "74 123 456",
+                email: "cfp.sfax@education.tn",
+                address: "Avenue Habib Bourguiba, Sfax 3000",
+                coordinates: { lat: 34.7398, lng: 10.7600 },
+                rating: 4.3,
+                employmentRate: 89,
+                duration: "12-15 mois",
+                description: "Centre de formation au cœur de Sfax, spécialisé dans les métiers du commerce et de la gestion. Fort réseau d'entreprises partenaires.",
+                reviews: [
+                    {
+                        id: 7,
+                        author: "Imen Jebali",
+                        rating: 4,
+                        comment: "Bonne formation en comptabilité, professeurs expérimentés.",
+                        date: "2024-01-30"
+                    }
+                ]
+            },
+            {
+                id: 6,
+                name: "Centre Sectoriel de Tourisme Monastir",
+                city: "Monastir",
+                specialties: ["Gestion de Restaurants", "Services de Réception", "Animation Touristique", "Guide Touristique"],
+                type: "Sectoriel",
+                phone: "73 234 567",
+                email: "cst.monastir@tourisme.tn",
+                address: "Zone Touristique Skanes, Monastir 5000",
+                coordinates: { lat: 35.7817, lng: 10.8256 },
+                rating: 4.4,
+                employmentRate: 91,
+                duration: "9-12 mois",
+                description: "Centre spécialisé dans la formation touristique et hôtelière. Formation en situation réelle dans les hôtels partenaires.",
+                reviews: [
+                    {
+                        id: 8,
+                        author: "Karim Slimani",
+                        rating: 4,
+                        comment: "Formation pratique en hôtellerie, bon contact avec les professionnels du secteur.",
+                        date: "2024-02-08"
+                    }
+                ]
+            },
+            {
+                id: 7,
+                name: "Institut de Technologie Appliquée Sousse",
+                city: "Sousse",
+                specialties: ["Automatisation Industrielle", "Maintenance Électrotechnique", "Énergies Renouvelables", "Robotique"],
+                type: "Public",
+                phone: "73 456 789",
+                email: "ita.sousse@education.tn",
+                address: "Boulevard 14 Janvier, Sousse 4000",
+                coordinates: { lat: 35.8245, lng: 10.6348 },
+                rating: 4.6,
+                employmentRate: 93,
+                duration: "15-18 mois",
+                description: "Institut de pointe dans les technologies industrielles. Équipements dernière génération et partenariats avec l'industrie.",
+                reviews: [
+                    {
+                        id: 9,
+                        author: "Rami Hamdi",
+                        rating: 5,
+                        comment: "Formation excellente en robotique, équipements de très haut niveau.",
+                        date: "2024-02-15"
+                    }
+                ]
+            },
+            {
+                id: 8,
+                name: "Centre de Formation Agricole Bizerte",
+                city: "Bizerte",
+                specialties: ["Agriculture Moderne", "Élevage", "Agroalimentaire", "Environnement"],
+                type: "Sectoriel",
+                phone: "72 345 123",
+                email: "cfa.bizerte@agriculture.tn",
+                address: "Route de Tunis, Bizerte 7000",
+                coordinates: { lat: 37.2744, lng: 9.8739 },
+                rating: 4.1,
+                employmentRate: 85,
+                duration: "10-14 mois",
+                description: "Centre spécialisé dans la formation agricole moderne. Exploitation agricole intégrée pour la formation pratique.",
+                reviews: [
+                    {
+                        id: 10,
+                        author: "Sarra Bouaziz",
+                        rating: 4,
+                        comment: "Formation complète en agriculture, approche moderne et écologique.",
+                        date: "2024-01-25"
+                    }
+                ]
+            }
+        ];
+
+        // État global de l'application
+        let currentCenter = null;
+        let currentRating = 0;
+        let searchTimeout = null;
+
+        // Initialisation de l'application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+            setupEventListeners();
+        });
+
+        function initializeApp() {
+            showHomePage();
+            loadStoredReviews();
+        }
+
+        function setupEventListeners() {
+            const searchInput = document.getElementById('searchInput');
+            const starRating = document.getElementById('starRating');
+
+            // Recherche en temps réel
+            searchInput.addEventListener('input', function() {
+                clearTimeout(searchTimeout);
+                const query = this.value.trim();
+                
+                if (query.length >= 2) {
+                    searchTimeout = setTimeout(() => {
+                        showSearchDropdown(query);
+                    }, 300);
+                } else {
+                    hideSearchDropdown();
+                }
+            });
+
+            // Gestion du système d'étoiles
+            if (starRating) {
+                starRating.addEventListener('click', function(e) {
+                    if (e.target.classList.contains('star')) {
+                        const rating = parseInt(e.target.dataset.rating);
+                        setStarRating(rating);
+                    }
+                });
+            }
+
+            // Fermer le dropdown quand on clique ailleurs
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.search-container')) {
+                    hideSearchDropdown();
+                }
+            });
+
+            // Gestion du redimensionnement
+            window.addEventListener('resize', function() {
+                adjustLayoutForMobile();
+            });
+        }
+
+        // Fonctions de navigation
+        function showHomePage() {
+            document.getElementById('homePage').style.display = 'block';
+            document.getElementById('centerPage').style.display = 'none';
+            hideSearchDropdown();
+        }
+
+        function showCenterPage(centerId) {
+            const center = trainingCenters.find(c => c.id === centerId);
+            if (!center) return;
+
+            currentCenter = center;
+            
+            // Masquer la page d'accueil et afficher la page du centre
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('centerPage').style.display = 'block';
+            
+            // Remplir les informations du centre
+            populateCenterInfo(center);
+            
+            // Charger les avis
+            loadCenterReviews(center);
+            
+            // Réinitialiser le formulaire d'avis
+            resetReviewForm();
+            
+            // Scroll vers le haut
+            window.scrollTo(0, 0);
+        }
+
+        function populateCenterInfo(center) {
+            document.getElementById('centerName').textContent = center.name;
+            document.getElementById('centerDescription').textContent = center.description;
+            document.getElementById('centerAddress').textContent = center.address;
+            document.getElementById('centerPhone').textContent = center.phone;
+            document.getElementById('centerEmail').textContent = center.email;
+            document.getElementById('centerType').textContent = center.type;
+            document.getElementById('centerDuration').textContent = center.duration;
+            document.getElementById('centerEmployment').textContent = center.employmentRate + '% de réussite';
+
+            // Afficher les spécialités
+            const specialtiesContainer = document.getElementById('centerSpecialties');
+            specialtiesContainer.innerHTML = '';
+            center.specialties.forEach(specialty => {
+                const card = document.createElement('div');
+                card.className = 'specialty-card';
+                card.innerHTML = `
+                    <h4>${specialty}</h4>
+                    <p>Formation complète et pratique</p>
+                `;
+                specialtiesContainer.appendChild(card);
+            });
+
+            // Configurer Google Maps
+            setupGoogleMaps(center);
+        }
+
+        // Système de recherche en temps réel
+        function showSearchDropdown(query) {
+            const results = searchCenters(query);
+            const dropdown = document.getElementById('searchDropdown');
+            
+            if (results.length === 0) {
+                dropdown.innerHTML = `
+                    <div class="dropdown-item">
+                        <div class="dropdown-icon">❌</div>
+                        <div class="dropdown-content">
+                            <div class="dropdown-title">Aucun résultat trouvé</div>
+                            <div class="dropdown-subtitle">Essayez avec d'autres mots-clés</div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                dropdown.innerHTML = results.slice(0, 5).map(center => `
+                    <div class="dropdown-item" onclick="showCenterPage(${center.id})">
+                        <div class="dropdown-icon">${getTypeIcon(center.type)}</div>
+                        <div class="dropdown-content">
+                            <div class="dropdown-title">${center.name}</div>
+                            <div class="dropdown-subtitle">📍 ${center.city} • ${center.type}</div>
+                            <div class="dropdown-rating">${'★'.repeat(Math.floor(center.rating))} ${center.rating}/5</div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            dropdown.classList.add('show');
+        }
+
+        function hideSearchDropdown() {
+            const dropdown = document.getElementById('searchDropdown');
+            dropdown.classList.remove('show');
+        }
+
+        function searchCenters(query) {
+            const lowerQuery = query.toLowerCase();
+            return trainingCenters.filter(center => {
+                return center.name.toLowerCase().includes(lowerQuery) ||
+                       center.city.toLowerCase().includes(lowerQuery) ||
+                       center.specialties.some(specialty => specialty.toLowerCase().includes(lowerQuery)) ||
+                       center.type.toLowerCase().includes(lowerQuery);
+            });
+        }
+
+        function getTypeIcon(type) {
+            switch(type) {
+                case 'Public': return '🏛️';
+                case 'Privé': return '🏢';
+                case 'Sectoriel': return '⚙️';
+                default: return '🎓';
+            }
+        }
+
+        // Fonctions de recherche rapide
+        function performSearch() {
+            const query = document.getElementById('searchInput').value.trim();
+            if (query === '') {
+                showNotification('Veuillez saisir un terme de recherche', 'error');
+                return;
+            }
+            
+            const results = searchCenters(query);
+            if (results.length === 1) {
+                showCenterPage(results[0].id);
+            } else if (results.length > 1) {
+                showSearchResults(results, query);
+            } else {
+                showNotification(`Aucun résultat trouvé pour "${query}"`, 'error');
+            }
+        }
+
+        function quickSearch(term) {
+            document.getElementById('searchInput').value = term;
+            performSearch();
+        }
+
+        function showSearchResults(results, query) {
+            // Pour l'instant, montrer le premier résultat
+            // Vous pouvez créer une page de résultats séparée si nécessaire
+            showCenterPage(results[0].id);
+        }
+
+        // Intégration Google Maps
+        function setupGoogleMaps(center) {
+            const mapContainer = document.getElementById('mapContainer');
+            const mapPlaceholder = mapContainer.querySelector('.map-placeholder');
+            
+            // Mettre à jour le placeholder avec l'adresse
+            mapPlaceholder.innerHTML = `
+                <div>
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🗺️</div>
+                    <div><strong>${center.name}</strong></div>
+                    <div style="margin: 0.5rem 0;">${center.address}</div>
+                    <div style="font-size: 0.9rem; opacity: 0.8;">Cliquez pour ouvrir dans Google Maps</div>
+                </div>
+            `;
+        }
+
+        function openGoogleMaps() {
+            if (!currentCenter) return;
+            
+            const address = encodeURIComponent(currentCenter.address);
+            const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${address}`;
+            window.open(googleMapsUrl, '_blank');
+        }
+
+        // Système d'évaluation
+        function loadCenterReviews(center) {
+            const storedReviews = getStoredReviews(center.id);
+            const allReviews = [...center.reviews, ...storedReviews];
+            
+            updateRatingDisplay(allReviews);
+            displayReviews(allReviews);
+        }
+
+        function updateRatingDisplay(reviews) {
+            if (reviews.length === 0) {
+                document.getElementById('avgRating').textContent = '0.0';
+                document.getElementById('avgStars').textContent = '☆☆☆☆☆';
+                document.getElementById('reviewCount').textContent = '0';
+                document.getElementById('ratingBreakdown').innerHTML = '<p>Aucun avis pour le moment</p>';
+                return;
+            }
+
+            const avgRating = reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length;
+            const roundedRating = Math.round(avgRating * 10) / 10;
+            
+            document.getElementById('avgRating').textContent = roundedRating.toFixed(1);
+            document.getElementById('avgStars').innerHTML = generateStars(avgRating);
+            document.getElementById('reviewCount').textContent = reviews.length;
+
+            // Génération du graphique de répartition
+            const breakdown = [1, 2, 3, 4, 5].map(rating => {
+                const count = reviews.filter(r => r.rating === rating).length;
+                const percentage = reviews.length > 0 ? (count / reviews.length) * 100 : 0;
+                return { rating, count, percentage };
+            }).reverse();
+
+            const breakdownHtml = breakdown.map(item => `
+                <div class="rating-bar">
+                    <span>${item.rating} ★</span>
+                    <div class="rating-bar-fill">
+                        <div class="rating-bar-inner" style="width: ${item.percentage}%"></div>
+                    </div>
+                    <span>${item.count}</span>
+                </div>
+            `).join('');
+
+            document.getElementById('ratingBreakdown').innerHTML = breakdownHtml;
+        }
+
+        function displayReviews(reviews) {
+            const reviewsList = document.getElementById('reviewsList');
+            
+            if (reviews.length === 0) {
+                reviewsList.innerHTML = '<p style="text-align: center; color: #666;">Aucun avis pour le moment. Soyez le premier à laisser un avis!</p>';
+                return;
+            }
+
+            reviewsList.innerHTML = reviews
+                .sort((a, b) => new Date(b.date) - new Date(a.date))
+                .map(review => `
+                    <div class="review-item">
+                        <div class="review-header">
+                            <span class="review-author">${review.author}</span>
+                            <span class="review-date">${formatDate(review.date)}</span>
+                        </div>
+                        <div class="review-stars">${generateStars(review.rating)}</div>
+                        <div class="review-text">${review.comment}</div>
+                    </div>
+                `).join('');
+        }
+
+        function generateStars(rating) {
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+            
+            return '★'.repeat(fullStars) + 
+                   (hasHalfStar ? '☆' : '') + 
+                   '☆'.repeat(emptyStars);
+        }
+
+        function setStarRating(rating) {
+            currentRating = rating;
+            const stars = document.querySelectorAll('.star');
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        function submitReview() {
+            const name = document.getElementById('reviewerName').value.trim();
+            const comment = document.getElementById('reviewComment').value.trim();
+            
+            if (!name) {
+                showNotification('Veuillez entrer votre nom', 'error');
+                return;
+            }
+            
+            if (currentRating === 0) {
+                showNotification('Veuillez sélectionner une note', 'error');
+                return;
+            }
+            
+            if (!comment) {
+                showNotification('Veuillez écrire un commentaire', 'error');
+                return;
+            }
+
+            const review = {
+                id: Date.now(),
+                author: name,
+                rating: currentRating,
+                comment: comment,
+                date: new Date().toISOString().split('T')[0]
+            };
+
+            // Sauvegarder l'avis
+            saveReview(currentCenter.id, review);
+            
+            // Recharger les avis
+            loadCenterReviews(currentCenter);
+            
+            // Réinitialiser le formulaire
+            resetReviewForm();
+            
+            showNotification('Votre avis a été publié avec succès!', 'success');
+        }
+
+        function resetReviewForm() {
+            document.getElementById('reviewerName').value = '';
+            document.getElementById('reviewComment').value = '';
+            currentRating = 0;
+            document.querySelectorAll('.star').forEach(star => star.classList.remove('active'));
+        }
+
+        // Stockage local des avis
+        function saveReview(centerId, review) {
+            const reviews = getStoredReviews(centerId);
+            reviews.push(review);
+            localStorage.setItem(`reviews_${centerId}`, JSON.stringify(reviews));
+        }
+
+        function getStoredReviews(centerId) {
+            const stored = localStorage.getItem(`reviews_${centerId}`);
+            return stored ? JSON.parse(stored) : [];
+        }
+
+        function loadStoredReviews() {
+            // Charger les avis stockés pour tous les centres
+            trainingCenters.forEach(center => {
+                const storedReviews = getStoredReviews(center.id);
+                if (storedReviews.length > 0) {
+                    const allReviews = [...center.reviews, ...storedReviews];
+                    const avgRating = allReviews.reduce((sum, review) => sum + review.rating, 0) / allReviews.length;
+                    center.rating = Math.round(avgRating * 10) / 10;
+                }
+            });
+        }
+
+        // Fonctions utilitaires
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('fr-FR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type} show`;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 4000);
+        }
+
+        function contactCenter() {
+            if (!currentCenter) return;
+            
+            const phoneNumber = currentCenter.phone.replace(/\s/g, '');
+            const whatsappMessage = encodeURIComponent(`Bonjour, je suis intéressé(e) par les formations du ${currentCenter.name}. Pouvez-vous me donner plus d'informations ?`);
+            
+            // Essayer d'ouvrir WhatsApp, sinon fallback vers le téléphone
+            const whatsappUrl = `https://wa.me/216${phoneNumber}?text=${whatsappMessage}`;
+            const phoneUrl = `tel:+216${phoneNumber}`;
+            
+            // Créer un menu de choix
+            const contactOptions = `
+                <div style="text-align: center;">
+                    <h3 style="margin-bottom: 20px;">Contacter ${currentCenter.name}</h3>
+                    <div style="margin-bottom: 20px;">
+                        <a href="${whatsappUrl}" target="_blank" class="btn btn-success" style="margin: 10px; display: inline-block;">
+                            📱 WhatsApp
+                        </a>
+                        <a href="${phoneUrl}" class="btn btn-primary" style="margin: 10px; display: inline-block;">
+                            📞 Appeler
+                        </a>
+                    </div>
+                    <div style="background: #f8f9ff; padding: 15px; border-radius: 10px; margin-top: 20px;">
+                        <p><strong>📞 Téléphone:</strong> ${currentCenter.phone}</p>
+                        <p><strong>✉️ Email:</strong> ${currentCenter.email}</p>
+                        <p><strong>📍 Adresse:</strong> ${currentCenter.address}</p>
+                    </div>
+                </div>
+            `;
+            
+            showModal(contactOptions);
+        }
+
+        // Fonctions pour les fonctionnalités existantes
+        function showAllCenters() {
+            showSearchResults(trainingCenters, 'tous les centres');
+        }
+
+        function showAllSpecialties() {
+            const allSpecialties = [...new Set(trainingCenters.flatMap(center => center.specialties))];
+            const specialtiesHtml = `
+                <h3 style="color: #667eea; text-align: center; margin-bottom: 20px;">
+                    Toutes les Spécialités (${allSpecialties.length})
+                </h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                    ${allSpecialties.map(specialty => `
+                        <div style="background: #f8f9ff; padding: 15px; border-radius: 10px; text-align: center; cursor: pointer; transition: all 0.3s ease;"
+                             onclick="quickSearch('${specialty}')" 
+                             onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 10px 25px rgba(0,0,0,0.1)'"
+                             onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                            <h4 style="color: #333; margin-bottom: 10px;">${specialty}</h4>
+                            <p style="color: #666; font-size: 0.9rem;">Cliquez pour rechercher</p>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            showModal(specialtiesHtml);
+        }
+
+        function showNearestCenters() {
+            const citiesHtml = `
+                <h3 style="color: #667eea; text-align: center; margin-bottom: 20px;">Centres par Ville</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    ${[...new Set(trainingCenters.map(center => center.city))].map(city => {
+                        const centerCount = trainingCenters.filter(center => center.city === city).length;
+                        return `
+                            <div style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; padding: 20px; border-radius: 15px; text-align: center; cursor: pointer; transition: all 0.3s ease;"
+                                 onclick="showCentersByCity('${city}')"
+                                 onmouseover="this.style.transform='scale(1.05)'"
+                                 onmouseout="this.style.transform='scale(1)'">
+                                <h4>${city}</h4>
+                                <p>${centerCount} centre${centerCount > 1 ? 's' : ''}</p>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+            showModal(citiesHtml);
+        }
+
+        function showCentersByCity(city) {
+            const cityCenters = trainingCenters.filter(center => center.city === city);
+            const centersHtml = `
+                <h3 style="color: #667eea; text-align: center; margin-bottom: 20px;">Centres à ${city}</h3>
+                <div style="max-height: 400px; overflow-y: auto;">
+                    ${cityCenters.map(center => `
+                        <div style="background: #f8f9ff; padding: 20px; margin: 15px 0; border-radius: 15px; cursor: pointer; border-left: 4px solid #667eea; transition: all 0.3s ease;"
+                             onclick="showCenterPage(${center.id})"
+                             onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 10px 25px rgba(0,0,0,0.1)'"
+                             onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                            <h4 style="color: #333; margin-bottom: 10px;">${center.name}</h4>
+                            <p style="color: #666; margin: 5px 0;">📍 ${center.address}</p>
+                            <p style="color: #666; margin: 5px 0;">📞 ${center.phone}</p>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
+                                <span style="background: #28a745; color: white; padding: 6px 12px; border-radius: 15px; font-size: 0.9rem;">
+                                    ${center.employmentRate}% emploi
+                                </span>
+                                <span style="color: #ffc107; font-size: 1.1rem;">
+                                    ${generateStars(center.rating)} (${center.rating})
+                                </span>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            showModal(centersHtml);
+        }
+
+        function showContact() {
+            const contactHtml = `
+                <h3 style="color: #667eea; text-align: center; margin-bottom: 20px;">Contactez-nous</h3>
+                <div style="background: #f0f8ff; padding: 20px; border-radius: 12px; margin-bottom: 20px; text-align: center;">
+                    <h4 style="color: #333; margin-bottom: 15px;">Informations de contact</h4>
+                    <p style="color: #666; margin: 10px 0;"><strong>📞 Téléphone:</strong> +216 71 123 456</p>
+                    <p style="color: #666; margin: 10px 0;"><strong>✉️ Email:</strong> info@takwinsearch.tn</p>
+                    <p style="color: #666; margin: 10px 0;"><strong>📍 Adresse:</strong> Avenue Habib Bourguiba, Tunis</p>
+                    <p style="color: #666; margin: 10px 0;"><strong>⏰ Horaires:</strong> Lun-Ven 8h-18h, Sam 9h-13h</p>
+                </div>
+                <div style="max-width: 500px; margin: 0 auto;">
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: bold; color: #333;">Nom complet *</label>
+                        <input type="text" id="contactName" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;" required>
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: bold; color: #333;">Email *</label>
+                        <input type="email" id="contactEmail" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;" required>
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: bold; color: #333;">Sujet</label>
+                        <select id="contactSubject" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;">
+                            <option value="">Choisir un sujet...</option>
+                            <option value="info">Demande d'information</option>
+                            <option value="partnership">Partenariat</option>
+                            <option value="technical">Support technique</option>
+                            <option value="other">Autre</option>
+                        </select>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: bold; color: #333;">Message *</label>
+                        <textarea id="contactMessage" rows="4" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; resize: vertical;" required placeholder="Écrivez votre message ici..."></textarea>
+                    </div>
+                    <button onclick="submitContactForm()" style="background: #28a745; color: white; border: none; padding: 15px 30px; border-radius: 25px; cursor: pointer; width: 100%; font-size: 1.1rem; font-weight: bold; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#218838'" onmouseout="this.style.backgroundColor='#28a745'">
+                        Envoyer le message
+                    </button>
+                </div>
+            `;
+            showModal(contactHtml);
+        }
+
+        function submitContactForm() {
+            const name = document.getElementById('contactName').value.trim();
+            const email = document.getElementById('contactEmail').value.trim();
+            const subject = document.getElementById('contactSubject').value;
+            const message = document.getElementById('contactMessage').value.trim();
+
+            if (!name || !email || !message) {
+                showNotification('Veuillez remplir tous les champs obligatoires', 'error');
+                return;
+            }
+
+            // Validation email simple
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showNotification('Veuillez entrer une adresse email valide', 'error');
+                return;
+            }
+
+            // Simuler l'envoi du message
+            const submitBtn = event.target;
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Envoi en cours...';
+            submitBtn.disabled = true;
+
+            setTimeout(() => {
+                closeModal();
+                showNotification('Votre message a été envoyé avec succès! Nous vous répondrons dans les plus brefs délais.', 'success');
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }, 2000);
+        }
+
+        // Système de modal
+        function showModal(content) {
+            // Créer le modal s'il n'existe pas
+            let modal = document.getElementById('globalModal');
+            if (!modal) {
+                modal = document.createElement('div');
+                modal.id = 'globalModal';
+                modal.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.5);
+                    z-index: 10000;
+                    display: none;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 20px;
+                `;
+                
+                const modalContent = document.createElement('div');
+                modalContent.style.cssText = `
+                    background: white;
+                    border-radius: 15px;
+                    max-width: 800px;
+                    width: 100%;
+                    max-height: 80vh;
+                    overflow-y: auto;
+                    position: relative;
+                    padding: 20px;
+                `;
+                
+                const closeBtn = document.createElement('button');
+                closeBtn.innerHTML = '×';
+                closeBtn.onclick = closeModal;
+                closeBtn.style.cssText = `
+                    position: absolute;
+                    top: 15px;
+                    right: 15px;
+                    background: #ff4757;
+                    color: white;
+                    border: none;
+                    border-radius: 50%;
+                    width: 35px;
+                    height: 35px;
+                    cursor: pointer;
+                    font-weight: bold;
+                    font-size: 18px;
+                    z-index: 1;
+                `;
+                
+                const contentDiv = document.createElement('div');
+                contentDiv.id = 'modalContentArea';
+                
+                modalContent.appendChild(closeBtn);
+                modalContent.appendChild(contentDiv);
+                modal.appendChild(modalContent);
+                document.body.appendChild(modal);
+            }
+            
+            document.getElementById('modalContentArea').innerHTML = content;
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('globalModal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Fonctions supplémentaires pour améliorer l'expérience
+        function adjustLayoutForMobile() {
+            const isMobile = window.innerWidth <= 768;
+            
+            if (isMobile) {
+                // Ajustements pour mobile
+                const searchBox = document.querySelector('.search-box');
+                const centerInfoGrid = document.querySelector('.center-info-grid');
+                
+                if (searchBox) {
+                    searchBox.style.flexDirection = 'column';
+                }
+                
+                if (centerInfoGrid) {
+                    centerInfoGrid.style.gridTemplateColumns = '1fr';
+                }
+            }
+        }
+
+        // Fonctions d'animation et d'amélioration UX
+        function addLoadingAnimation(element) {
+            const originalContent = element.innerHTML;
+            element.innerHTML = '<span class="loading"></span> Chargement...';
+            element.disabled = true;
+            
+            return function removeLoading() {
+                element.innerHTML = originalContent;
+                element.disabled = false;
+            };
+        }
+
+        // Fonction pour gérer les erreurs
+        function handleError(error, context = '') {
+            console.error(`Erreur ${context}:`, error);
+            showNotification('Une erreur est survenue. Veuillez réessayer.', 'error');
+        }
+
+        // Fonctions de statistiques et analytics (simulation)
+        function trackUserInteraction(action, details = {}) {
+            // Simuler le tracking d'interactions utilisateur
+            const interaction = {
+                timestamp: new Date().toISOString(),
+                action: action,
+                details: details,
+                userAgent: navigator.userAgent,
+                url: window.location.href
+            };
+            
+            // En production, vous pourriez envoyer ces données à votre service d'analytics
+            console.log('User Interaction:', interaction);
+        }
+
+        // Amélioration de la recherche avec suggestions
+        function getSearchSuggestions(query) {
+            const suggestions = [];
+            const lowerQuery = query.toLowerCase();
+            
+            // Suggestions basées sur les villes
+            const cities = [...new Set(trainingCenters.map(c => c.city))];
+            cities.forEach(city => {
+                if (city.toLowerCase().includes(lowerQuery)) {
+                    suggestions.push({
+                        type: 'city',
+                        value: city,
+                        icon: '📍',
+                        label: `Centres à ${city}`
+                    });
+                }
+            });
+            
+            // Suggestions basées sur les spécialités
+            const specialties = [...new Set(trainingCenters.flatMap(c => c.specialties))];
+            specialties.forEach(specialty => {
+                if (specialty.toLowerCase().includes(lowerQuery)) {
+                    suggestions.push({
+                        type: 'specialty',
+                        value: specialty,
+                        icon: '🎓',
+                        label: specialty
+                    });
+                }
+            });
+            
+            return suggestions.slice(0, 3);
+        }
+
+        // Fonction pour améliorer l'accessibilité
+        function improveAccessibility() {
+            // Ajouter des attributs ARIA
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.setAttribute('aria-label', 'Rechercher un centre de formation');
+                searchInput.setAttribute('aria-describedby', 'search-help');
+            }
+            
+            // Ajouter le support clavier pour les éléments interactifs
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    hideSearchDropdown();
+                    closeModal();
+                }
+                
+                if (e.key === 'Enter' && e.target.classList.contains('dropdown-item')) {
+                    e.target.click();
+                }
+            });
+        }
+
+        // Initialisation finale
+        document.addEventListener('DOMContentLoaded', function() {
+            improveAccessibility();
+            adjustLayoutForMobile();
+            
+            // Track initial page load
+            trackUserInteraction('page_load', {
+                page: 'home',
+                timestamp: new Date().toISOString()
+            });
+        });
+
+        // Gestion des erreurs globales
+        window.addEventListener('error', function(e) {
+            handleError(e.error, 'global');
+        });
+
+        // Fonction pour partager un centre
+        function shareCenter(centerId) {
+            const center = trainingCenters.find(c => c.id === centerId);
+            if (!center) return;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: center.name,
+                    text: `Découvrez ${center.name} - Formation professionnelle à ${center.city}`,
+                    url: `${window.location.origin}#center-${centerId}`
+                });
+            } else {
+                // Fallback pour navigateurs qui ne supportent pas Web Share API
+                const url = `${window.location.origin}#center-${centerId}`;
+                navigator.clipboard.writeText(url).then(() => {
+                    showNotification('Lien copié dans le presse-papiers!', 'success');
+                });
+            }
+        }
+
+        // Gérer les liens directs vers les centres
+        function handleDirectLinks() {
+            const hash = window.location.hash;
+            if (hash.startsWith('#center-')) {
+                const centerId = parseInt(hash.replace('#center-', ''));
+                if (centerId) {
+                    setTimeout(() => showCenterPage(centerId), 100);
+                }
+            }
+        }
+
+        // Appeler handleDirectLinks au chargement de la page
+        window.addEventListener('load', handleDirectLinks);
+    </script>
+</body>
+</html>

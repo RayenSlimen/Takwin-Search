@@ -1,153 +1,531 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" dir="ltr">
 <head>
-  <meta charset="UTF-8">
-  <title>Takwin Search - Inscription</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to bottom right, #e0f7fa, #e3f2fd), url('background.jpg');
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    header {
-      background-color: #0077cc;
-      color: white;
-      padding: 15px 30px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-    }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            direction: ltr;
+            margin: 0;
+        }
 
-    header img {
-      height: 50px;
-      margin-right: 15px;
-      border-radius: 8px;
-    }
+        .navbar {
+            background: #f8f9fb;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid #e9ecef;
+        }
 
-    header h1 {
-      margin: 0;
-      font-size: 26px;
-    }
-    header a {
-      color: #ffffff;
-      flex-direction: row;
-      justify-content: space-between;
-      margin: 0;
-      font-size: 26px;
-      
-    }
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #6366f1;
+            text-decoration: none;
+        }
 
-    .container {
-      max-width: 600px;
-      margin: 40px auto;
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 0 12px rgba(0,0,0,0.1);
-    }
+        .navbar-brand .brand-icon {
+            font-size: 20px;
+        }
 
-    .role-select {
-      margin-bottom: 25px;
-    }
+        .navbar-nav {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
 
-    form {
-      display: none;
-    }
+        .nav-link {
+            text-decoration: none;
+            color: #6b7280;
+            font-weight: 400;
+            font-size: 15px;
+            transition: color 0.3s ease;
+        }
 
-    label {
-      display: block;
-      margin-top: 12px;
-      font-weight: bold;
-    }
+        .nav-link:hover {
+            color: #4f46e5;
+        }
 
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
+        .btn-connect {
+            background: #6366f1;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
 
-    .visible {
-      display: block;
-    }
+        .btn-connect:hover {
+            background: #4f46e5;
+        }
 
-    button {
-      margin-top: 20px;
-      padding: 12px 24px;
-      background-color: #0077cc;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 16px;
-    }
+        .main-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 70px);
+            padding: 20px;
+        }
 
-    button:hover {
-      background-color: #005fa3;
-    }
-  </style>
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .login-header {
+            margin-bottom: 30px;
+        }
+
+        .login-header h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .login-header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .user-type-selector {
+            display: flex;
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 5px;
+            margin-bottom: 30px;
+            gap: 5px;
+        }
+
+        .user-type-btn {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            background: transparent;
+            color: #666;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .user-type-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .login-form {
+            display: none;
+        }
+
+        .login-form.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: #aaa;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .forgot-password {
+            margin-top: 20px;
+        }
+
+        .forgot-password a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-password a:hover {
+            color: #764ba2;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+            display: none;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #f5c6cb;
+            display: none;
+        }
+
+        .form-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            font-size: 18px;
+        }
+
+        .input-container {
+            position: relative;
+        }
+
+        .input-container input {
+            padding-left: 45px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 20px;
+            }
+
+            .navbar-nav {
+                gap: 30px;
+            }
+
+            .nav-link {
+                font-size: 14px;
+            }
+
+            .btn-connect {
+                padding: 8px 18px;
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar-nav {
+                display: none;
+            }
+
+            .login-container {
+                padding: 30px 20px;
+                margin: 20px;
+            }
+            
+            .login-header h1 {
+                font-size: 24px;
+            }
+            
+            .user-type-btn {
+                font-size: 14px;
+                padding: 10px 15px;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="#" class="navbar-brand">
+            <span class="brand-icon">🎓</span>
+            <span>Takwin Search</span>
+        </a>
+        
+        <ul class="navbar-nav">
+            <li><a href="centre_de_formation.html" class="nav-link">Accueil</a></li>
+            <li><a href="signup.html" class="btn-connect">S'inscrire</a></li>
+        </ul>
+    </nav>
 
-<header>
-  <img src="unnamed.jpg" alt="Logo Takwin Search" >
-  <h1>Takwin Search</h1>
-  <div>
-    <a href="/" style="color: white; text-decoration: none; margin-left: auto;">Sign up</a>
-  </div>
-</header>
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="login-container">
+        <div class="login-header">
+            <h1>Connexion</h1>
+            <p>Bienvenue, veuillez choisir le type de compte</p>
+        </div>
 
-<div class="container">
-  <div class="role-select">
-    <label for="role">Choisissez le type d'utilisateur :</label>
-    <select id="role" onchange="afficherFormulaire()">
-      <option value="">-- Choisir --</option>
-      <option value="etudiant">Étudiant</option>
-      <option value="centre">Centre de formation</option>
-    </select>
-  </div>
+        <div class="user-type-selector">
+            <button class="user-type-btn active" data-type="student">
+                Étudiant
+            </button>
+            <button class="user-type-btn" data-type="center">
+                Centre de Formation
+            </button>
+        </div>
 
-  <!-- Formulaire Étudiant -->
-  <form id="formEtudiant">
-    <h3>Informations de l'étudiant</h3>
-    <label>Nom</label><input type="text" name="nom">
-    <label>Email</label><input type="email" name="email">
-    <label>Mot de passe</label><input type="password" name="password">
-    <button type="submit">Login</button>
-  </form>
+        <div class="success-message" id="successMessage"></div>
+        <div class="error-message" id="errorMessage"></div>
 
-  <!-- Formulaire Centre -->
-  <form id="formCentre">
-    <h3>Informations du centre de formation</h3>
-    <label>Nom du centre</label><input type="text" name="nom_centre">
-    <label>Email</label><input type="email" name="email">
-    <label>Mot de passe</label><input type="password" name="password">
-    <button type="submit">Login</button>
-  </form>
-</div>
+        <!-- Formulaire Étudiant -->
+        <form class="login-form active" id="studentForm" action="{% url 'loginuser' %}" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="studentEmail">Adresse e-mail</label>
+                <div class="input-container">
+                    <input type="email" id="studentEmail" name="email" placeholder="Entrez votre adresse e-mail" required>
+                    <span class="form-icon">📧</span>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="studentPassword">Mot de passe</label>
+                <div class="input-container">
+                    <input type="password" id="studentPassword" name="password" placeholder="Entrez votre mot de passe" required>
+                    <span class="form-icon">🔒</span>
+                </div>
+            </div>
+            
+            <button type="submit" class="login-btn">
+                Se connecter en tant qu'étudiant
+            </button>
+            
+            <div class="forgot-password">
+                <a href="#" onclick="showForgotPassword('student')">Mot de passe oublié ?</a>
+            </div>
+        </form>
 
-<script>
-  function afficherFormulaire() {
-    const role = document.getElementById("role").value;
-    document.getElementById("formEtudiant").classList.remove("visible");
-    document.getElementById("formCentre").classList.remove("visible");
+        <!-- Formulaire Centre de Formation -->
+        <form class="login-form" id="centerForm" action="{% url 'logincentre' %}" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="centerEmail">Adresse e-mail du centre</label>
+                <div class="input-container">
+                    <input type="email" id="centerEmail" name="email" placeholder="Entrez l'e-mail du centre" required>
+                    <span class="form-icon">🏢</span>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="centerPassword">Mot de passe</label>
+                <div class="input-container">
+                    <input type="password" id="centerPassword" name="password" placeholder="Entrez votre mot de passe" required>
+                    <span class="form-icon">🔒</span>
+                </div>
+            </div>
+            
+            <button type="submit" class="login-btn">
+                Se connecter en tant que centre de formation
+            </button>
+            
+            <div class="forgot-password">
+                <a href="#" onclick="showForgotPassword('center')">Mot de passe oublié ?</a>
+            </div>
+        </form>
+    </div>
+    </div>
 
-    if (role === "etudiant") {
-      document.getElementById("formEtudiant").classList.add("visible");
-    } else if (role === "centre") {
-      document.getElementById("formCentre").classList.add("visible");
-    }
-  }
-</script>
+    <script>
+        // Basculer entre les types d'utilisateurs
+        const userTypeBtns = document.querySelectorAll('.user-type-btn');
+        const loginForms = document.querySelectorAll('.login-form');
 
+        userTypeBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const userType = btn.getAttribute('data-type');
+                
+                // Supprimer la classe active de tous les boutons
+                userTypeBtns.forEach(b => b.classList.remove('active'));
+                // Ajouter la classe active au bouton sélectionné
+                btn.classList.add('active');
+                
+                // Masquer tous les formulaires
+                loginForms.forEach(form => form.classList.remove('active'));
+                
+                // Afficher le formulaire sélectionné
+                if (userType === 'student') {
+                    document.getElementById('studentForm').classList.add('active');
+                } else {
+                    document.getElementById('centerForm').classList.add('active');
+                }
+            });
+        });
+
+        // Gestion de la connexion étudiant
+        document.getElementById('studentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('studentEmail').value;
+            const password = document.getElementById('studentPassword').value;
+            
+            // Validation des données
+            if (validateLogin(email, password)) {
+                showMessage('Connexion réussie en tant qu\'étudiant !', 'success');
+                // Ici, vous pouvez ajouter le code pour envoyer les données au serveur
+                console.log('Connexion Étudiant:', { email, password, type: 'student' });
+            } else {
+                showMessage('Veuillez vérifier votre e-mail et mot de passe', 'error');
+            }
+        });
+
+        // Gestion de la connexion centre de formation
+        document.getElementById('centerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('centerEmail').value;
+            const password = document.getElementById('centerPassword').value;
+            
+            // Validation des données
+            if (validateLogin(email, password)) {
+                showMessage('Connexion réussie en tant que centre de formation !', 'success');
+                // Ici, vous pouvez ajouter le code pour envoyer les données au serveur
+                console.log('Connexion Centre de Formation:', { email, password, type: 'center' });
+            } else {
+                showMessage('Veuillez vérifier votre e-mail et mot de passe', 'error');
+            }
+        });
+
+        // Validation des données de connexion
+        function validateLogin(email, password) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email) && password.length >= 6;
+        }
+
+        // Affichage des messages
+        function showMessage(message, type) {
+            const successDiv = document.getElementById('successMessage');
+            const errorDiv = document.getElementById('errorMessage');
+            
+            // Masquer tous les messages
+            successDiv.style.display = 'none';
+            errorDiv.style.display = 'none';
+            
+            if (type === 'success') {
+                successDiv.textContent = message;
+                successDiv.style.display = 'block';
+                setTimeout(() => {
+                    successDiv.style.display = 'none';
+                }, 5000);
+            } else {
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+                setTimeout(() => {
+                    errorDiv.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        // Gestion du mot de passe oublié
+        function showForgotPassword(userType) {
+            const typeText = userType === 'student' ? 'l\'étudiant' : 'le centre de formation';
+            alert(`Un lien de réinitialisation du mot de passe sera envoyé à l'adresse e-mail de ${typeText}`);
+        }
+
+        // Ajouter un effet visuel aux champs
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+
+        // Validation de l'e-mail en temps réel
+        inputs.forEach(input => {
+            if (input.type === 'email') {
+                input.addEventListener('input', function() {
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (this.value && !emailRegex.test(this.value)) {
+                        this.style.borderColor = '#dc3545';
+                    } else {
+                        this.style.borderColor = '#e1e5e9';
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
