@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TakwinSearch - Votre Guide Formation</title>
+    <link rel="stylesheet" href="{% static 'css/centre_de_formation.css' %}">
+
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <a class="logo" onclick="showHomePage()">🎓 TakwinSearch</a>
+            <ul class="nav-links">
+                <li><a onclick="showHomePage()">Accueil</a></li>
+                <li><a onclick="showAllCenters()">Centres</a></li>
+                <li><a onclick="showContact()">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Home Page -->
+    <div id="homePage">
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Découvrez Votre Avenir Professionnel</h1>
+                    <p>Le guide complet de tous les centres de formation professionnelle et technique du pays. Trouvez
+                        la spécialité qui vous convient et commencez votre parcours vers le succès</p>
+
+                    <div class="search-container">
+                        <div class="search-box">
+                            <input type="text" class="search-input" placeholder="Rechercher par ville ou spécialité..."
+                                id="searchInput" autocomplete="off">
+                            <button class="search-btn" onclick="performSearch()">🔍 Rechercher</button>
+                        </div>
+                        <div class="search-dropdown" id="searchDropdown"></div>
+                    </div>
+
+
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <h2 class="section-title">Pourquoi choisir notre plateforme ?</h2>
+                <p class="section-subtitle">Nous vous offrons tout ce dont vous avez besoin pour prendre la bonne
+                    décision dans votre parcours professionnel</p>
+
+                <div class="features-grid">
+                    <div class="feature-card" onclick="showAllCenters()">
+                        <div class="feature-icon">🏢</div>
+                        <h3>Centres Accrédités</h3>
+                        <p>Tous les centres répertoriés sur notre plateforme sont officiellement accrédités et délivrent
+                            des certifications reconnues sur le marché du travail</p>
+                        <button class="btn btn-primary">Voir les centres</button>
+                    </div>
+
+                    <div class="feature-card" onclick="showAllSpecialties()">
+                        <div class="feature-icon">📚</div>
+                        <h3>Spécialités Diversifiées</h3>
+                        <p>Plus de 120 spécialités professionnelles et techniques dans divers domaines allant de la
+                            technologie à la santé</p>
+                        <button class="btn btn-primary">Explorer les spécialités</button>
+                    </div>
+
+                    <div class="feature-card" onclick="showNearestCenters()">
+                        <div class="feature-icon">📍</div>
+                        <h3>Emplacements Proches</h3>
+                        <p>Trouvez les centres de formation les plus proches de votre localisation avec intégration
+                            Google Maps</p>
+                        <button class="btn btn-primary">Recherche par localisation</button>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta">
+            <div class="container1">
+                <h2 class="section-title">Commencez votre parcours professionnel aujourd'hui</h2>
+                <p class="section-subtitle">Rejoignez des milliers d'étudiants qui ont transformé leur avenir grâce à la
+                    formation professionnelle appropriée</p>
+
+                <button onclick="window.location.href='signup.html'" class="cta-button">S'inscrire maintenant</button>
+                <button onclick="window.location.href='login.html'" class="cta-button"
+                    style="background: linear-gradient(45deg, #28a745, #20c997);">Se connecter</button>
+            </div>
+        </section>
+    </div>
+
+
+    <!-- Center Detail Page -->
+    <div id="centerPage" class="center-page">
+        <div class="container">
+            <button class="btn back-btn" onclick="showHomePage()">← Retour à l'accueil</button>
+
+            <div class="center-header">
+                <div class="container">
+                    <h1 id="centerName">Nom du Centre</h1>
+                    <p id="centerDescription">Description du centre de formation</p>
+                </div>
+            </div>
+
+            <div class="center-info-grid">
+                <div class="center-details">
+                    <div class="detail-section">
+                        <h3>🎯 Spécialités Disponibles</h3>
+                        <div class="specialties-grid" id="centerSpecialties">
+                            <!-- Specialties will be loaded here -->
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>📍 Localisation</h3>
+                        <div class="map-container" id="mapContainer">
+                            <div class="map-placeholder" onclick="openGoogleMaps()">
+                                <div>
+                                    <div style="font-size: 3rem; margin-bottom: 1rem;">🗺️</div>
+                                    <div>Cliquez pour ouvrir dans Google Maps</div>
+                                    <div style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">Voir l'itinéraire
+                                        et les environs</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rating-section">
+                        <h3>⭐ Évaluations et Avis</h3>
+
+                        <div class="rating-overview">
+                            <div class="rating-summary">
+                                <div class="rating-number" id="avgRating">0.0</div>
+                                <div class="rating-stars-large" id="avgStars"></div>
+                                <div>Basé sur <span id="reviewCount">0</span> avis</div>
+                            </div>
+
+                            <div class="rating-breakdown" id="ratingBreakdown">
+                                <!-- Rating bars will be generated here -->
+                            </div>
+                        </div>
+
+                        <div class="add-rating">
+                            <h4>Ajoutez votre avis</h4>
+                            <div class="form-group">
+                                <label>Votre nom</label>
+                                <input type="text" id="reviewerName" placeholder="Entrez votre nom">
+                            </div>
+                            <div class="rating-input">
+                                <label>Note :</label>
+                                <div class="star-rating" id="starRating">
+                                    <span class="star" data-rating="1">★</span>
+                                    <span class="star" data-rating="2">★</span>
+                                    <span class="star" data-rating="3">★</span>
+                                    <span class="star" data-rating="4">★</span>
+                                    <span class="star" data-rating="5">★</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Votre commentaire</label>
+                                <textarea id="reviewComment" rows="4"
+                                    placeholder="Partagez votre expérience..."></textarea>
+                            </div>
+                            <button class="btn btn-success" onclick="submitReview()">Publier l'avis</button>
+                        </div>
+
+                        <div class="reviews-list" id="reviewsList">
+                            <!-- Reviews will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="center-sidebar">
+                    <div class="contact-info">
+                        <h3>📞 Informations de Contact</h3>
+                        <div class="contact-item">
+                            <div class="contact-icon">📍</div>
+                            <div id="centerAddress">Adresse</div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">📞</div>
+                            <div id="centerPhone">Téléphone</div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">✉️</div>
+                            <div id="centerEmail">Email</div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">🏢</div>
+                            <div id="centerType">Type</div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">⏱️</div>
+                            <div id="centerDuration">Durée</div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">💼</div>
+                            <div id="centerEmployment">Taux d'emploi</div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="contactCenter()" style="width: 100%; margin-top: 1rem;">
+                        Contacter le centre
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <script src="{% static 'js/centre_de_formation.js' %}"></script>
+
+
+</body>
+
+</html>

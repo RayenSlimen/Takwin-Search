@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription - Takwin Search</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/signup.css' %}">
+</head>
+
+<body>
+    <header class="header">
+        <nav class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                Takwin Search
+            </a>
+            <div class="nav-links">
+                <a href="centre_de_formation.html" class="nav-link">Accueil</a>
+                <a href="login.html" class="btn-login">Se connecter</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="signup-container">
+            <div class="signup-title">
+                <h1>Créer un compte</h1>
+                <p>Rejoignez notre plateforme de formation</p>
+            </div>
+
+            <div class="role-selector">
+                <label>Je suis :</label>
+                <div class="role-buttons">
+                    <div class="role-btn" onclick="selectRole('student')" id="student-btn">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>Étudiant</span>
+                    </div>
+                    <div class="role-btn" onclick="selectRole('center')" id="center-btn">
+                        <i class="fas fa-building"></i>
+                        <span>Centre de formation</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulaire Étudiant -->
+            <form action="{% url 'signup' %}" method="POST">
+                <div class="student-form signup-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="role" id="roleInput" value="">
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="student-nom">Prénom</label>
+                            <input type="text" id="student-nom" name="student-nom" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label for="student-nom-famille">Nom de famille</label>
+                            <input type="text" id="student-nom-famille" name="student-nom-famille" class="form-input">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="student-email">Adresse email</label>
+                        <input type="email" id="student-email" name="student-email" class="form-input">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="student-password">Mot de passe</label>
+                        <input type="password" id="student-password" name="student-password" class="form-input">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="student-niveau">Niveau d'études</label>
+                            <select id="student-niveau" name="niveau" class="form-input">
+                                <option value="">Sélectionner</option>
+                                <option value="bac">Baccalauréat</option>
+                                <option value="license">Licence</option>
+                                <option value="master">Master</option>
+                                <option value="doctorat">Doctorat</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="student-domaine">Domaine d'intérêt</label>
+                            <select id="student-domaine" name="domaine" class="form-input">
+                                <option value="">Sélectionner</option>
+                                <option value="informatique">Informatique</option>
+                                <option value="marketing">Marketing</option>
+                                <option value="finance">Finance</option>
+                                <option value="design">Design</option>
+                                <option value="langues">Langues</option>
+                                <option value="autre">Autre</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="center-form signup-form">
+
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="center-nom">Nom du centre</label>
+                        <input type="text" id="center-nom" name="nom_centre" class="form-input">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="center-email">Adresse email</label>
+                        <input type="email" id="center-email" name="center-email" class="form-input">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="center-password">Mot de passe</label>
+                        <input type="password" id="center-password" name="center-password" class="form-input">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="center-adresse">Adresse complète</label>
+                        <input type="text" id="center-adresse" name="center-adresse" class="form-input">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="center-telephone">Téléphone</label>
+                            <input type="tel" id="center-telephone" name="center-telephone" class="form-input">
+                        </div>
+
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    Créer mon compte
+                </button>
+            </form>
+
+            <div class="form-footer">
+                <p>Vous avez déjà un compte ? <a href="login.html">Se connecter</a></p>
+            </div>
+        </div>
+    </main>
+
+    <script src="{% static 'js/signup.js' %}"></script>
+</body>
+
+</html>

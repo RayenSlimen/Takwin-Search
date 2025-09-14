@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="#" class="navbar-brand">
+            <span class="brand-icon">🎓</span>
+            <span>Takwin Search</span>
+        </a>
+
+        <ul class="navbar-nav">
+            <li><a href="centre_de_formation.html" class="nav-link">Accueil</a></li>
+            <li><a href="signup.html" class="btn-connect">S'inscrire</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="login-container">
+            <div class="login-header">
+                <h1>Connexion</h1>
+                <p>Bienvenue, veuillez choisir le type de compte</p>
+            </div>
+
+            <div class="user-type-selector">
+                <button class="user-type-btn active" data-type="student">
+                    Étudiant
+                </button>
+                <button class="user-type-btn" data-type="center">
+                    Centre de Formation
+                </button>
+            </div>
+
+            <div class="success-message" id="successMessage"></div>
+            <div class="error-message" id="errorMessage"></div>
+
+            <!-- Formulaire Étudiant -->
+            <form action="{% url 'login' %}" method="POST">
+                <div class="login-form" id="studentForm">
+                    {% csrf_token %}
+                    <input type="hidden" name="role" id="roleInput" value="">
+                    <div class="form-group">
+                        <label for="student-email">Adresse e-mail</label>
+                        <div class="input-container">
+                            <input type="email" id="student-email" name="student-email"
+                                placeholder="Entrez votre adresse e-mail">
+                            <span class="form-icon">📧</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="student-password">Mot de passe</label>
+                        <div class="input-container">
+                            <input type="password" id="student-password" name="student-password"
+                                placeholder="Entrez votre mot de passe">
+                            <span class="form-icon">🔒</span>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Formulaire Centre de Formation -->
+
+                <div class="login-form" id="centerForm">
+
+                    <div class="form-group">
+                        <label for="center-email">Adresse e-mail du centre</label>
+                        <div class="input-container">
+                            <input type="email" id="center-email" name="center-email"
+                                placeholder="Entrez l'e-mail du centre">
+                            <span class="form-icon">🏢</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="center-password">Mot de passe</label>
+                        <div class="input-container">
+                            <input type="password" id="center-password" name="center-password"
+                                placeholder="Entrez votre mot de passe">
+                            <span class="form-icon">🔒</span>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <button type="submit" class="login-btn">
+                    Se connecter
+                </button>
+                <div class="forgot-password">
+                    <a href="#" onclick="showForgotPassword('center et etudient')">Mot de passe oublié ?</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <script src="{% static 'js/login.js' %}"></script>
+
+</body>
+
+</html>
