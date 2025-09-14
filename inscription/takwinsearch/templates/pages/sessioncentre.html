@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sessions de Formation - TakwinSearch</title>
+    <link rel="stylesheet" href="{% static 'css/sessioncentre.css' %}">
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="#" class="logo">🎓 {{name}}</a>
+            <ul class="nav-links">
+                <li><a href="centre_de_formation.html" onclick="goHome()">Accueil</a></li>
+                <li><a href="#" onclick="showAllCenters()">Centres</a></li>
+                <li><a href="#" onclick="showContact()">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">Sessions de Formation</h1>
+            <p class="page-subtitle">
+                Découvrez toutes les sessions de formation disponibles dans les centres partenaires.
+                Inscrivez-vous aux formations qui vous intéressent et planifiez votre avenir professionnel.
+            </p>
+        </div>
+
+        <!-- Statistics -->
+        <div class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalSessions">0</div>
+                    <div class="stat-label">Sessions Disponibles</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalCenters">8</div>
+                    <div class="stat-label">Centres Partenaires</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalSpecialties">32</div>
+                    <div class="stat-label">Spécialités Offertes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalPlaces">0</div>
+                    <div class="stat-label">Places Disponibles</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters-section">
+            <h3 style="margin-bottom: 1.5rem; color: #333;">🔍 Filtrer les Sessions</h3>
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label for="filterSpecialty">Spécialité</label>
+                    <select id="filterSpecialty">
+                        <option value="">Toutes les spécialités</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filterCenter">Centre</label>
+                    <select id="filterCenter">
+                        <option value="">Tous les centres</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filterCity">Ville</label>
+                    <select id="filterCity">
+                        <option value="">Toutes les villes</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filterMonth">Mois de début</label>
+                    <select id="filterMonth">
+                        <option value="">Tous les mois</option>
+                    </select>
+                </div>
+            </div>
+            <div class="filter-actions">
+                <button class="btn btn-primary" onclick="filterSessions()">🔍 Filtrer</button>
+                <button class="btn btn-secondary" onclick="resetFilters()">🔄 Réinitialiser</button>
+                <button class="btn btn-success" onclick="showAddSessionModal()">➕ Ajouter Session</button>
+            </div>
+        </div>
+
+        <!-- Sessions List -->
+        <div id="sessionsContainer">
+            <div class="sessions-grid" id="sessionsGrid">
+                <!-- Sessions will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Session Modal -->
+    <div class="modal" id="addSessionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Ajouter une Nouvelle Session</h2>
+                <button class="close-btn" onclick="hideAddSessionModal()">&times;</button>
+            </div>
+            <form id="addSessionForm">
+                <div class="form-group">
+                    <label for="sessionSpecialty">Spécialité *</label>
+                    <select id="sessionSpecialty" required>
+                        <option value="">Sélectionner une spécialité</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="sessionCenter">Centre *</label>
+                    <select id="sessionCenter" required>
+                        <option value="">Sélectionner un centre</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="sessionStartDate">Date de début *</label>
+                    <input type="date" id="sessionStartDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="sessionEndDate">Date de fin *</label>
+                    <input type="date" id="sessionEndDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="sessionLocation">Lieu *</label>
+                    <input type="text" id="sessionLocation" placeholder="Ex: Salle A1, Laboratoire Informatique..."
+                        required>
+                </div>
+                <div class="form-group">
+                    <label for="sessionPlaces">Nombre de places *</label>
+                    <input type="number" id="sessionPlaces" min="1" max="50" placeholder="20" required>
+                </div>
+                <div class="form-group">
+                    <label for="sessionPrice">Prix (TND)</label>
+                    <input type="number" id="sessionPrice" min="0" step="10" placeholder="500">
+                </div>
+                <div class="form-group">
+                    <label for="sessionDescription">Description</label>
+                    <textarea id="sessionDescription" rows="4"
+                        placeholder="Description de la session, prérequis, objectifs..."></textarea>
+                </div>
+                <div class="filter-actions">
+                    <button type="submit" class="btn btn-success">💾 Enregistrer</button>
+                    <button type="button" class="btn btn-secondary" onclick="hideAddSessionModal()">❌ Annuler</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    
+    <script src="{% static 'js/sessioncentre.js' %}"></script>
+    
+</body>
+
+</html>

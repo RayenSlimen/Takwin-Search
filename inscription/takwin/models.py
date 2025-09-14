@@ -5,8 +5,9 @@ class CentreFormation(models.Model):
     name = models.TextField(max_length=100)
     phone = models.IntegerField()
     email = models.TextField()
+    mot_de_passe = models.CharField(max_length=128)
     address = models.TextField()
-    role = models.TextField(max_length=50)
+
 
 class Formation(models.Model):
     titre = models.CharField(max_length=100)

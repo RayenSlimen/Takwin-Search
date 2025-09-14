@@ -1,639 +1,4 @@
-<!DOCTYPE html>
-<html lang="fr" dir="ltr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sessions de Formation - TakwinSearch</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding-top: 80px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Header */
-        header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 0;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding-left: 20px;
-            padding-right: 20px;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #667eea;
-            text-decoration: none;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #333;
-            font-weight: 500;
-            transition: color 0.3s ease;
-            cursor: pointer;
-        }
-
-        .nav-links a:hover {
-            color: #667eea;
-        }
-
-        /* Page Content */
-        .page-header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 3rem;
-            margin: 2rem 0;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .page-title {
-            font-size: 2.5rem;
-            color: #333;
-            margin-bottom: 1rem;
-        }
-
-        .page-subtitle {
-            font-size: 1.2rem;
-            color: #666;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* Filters Section */
-        .filters-section {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .filters-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .filter-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .filter-group label {
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 0.5rem;
-        }
-
-        .filter-group select,
-        .filter-group input {
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.3s ease;
-        }
-
-        .filter-group select:focus,
-        .filter-group input:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .filter-actions {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn-primary {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-        }
-
-        .btn-secondary {
-            background: #6c757d;
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background: #5a6268;
-        }
-
-        .btn-success {
-            background: #28a745;
-            color: white;
-        }
-
-        .btn-success:hover {
-            background: #218838;
-        }
-
-        /* Sessions Grid */
-        .sessions-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .session-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            border-left: 5px solid #667eea;
-        }
-
-        .session-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
-        }
-
-        .session-specialty {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 1rem;
-        }
-
-        .session-center {
-            color: #667eea;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-        }
-
-        .session-details {
-            margin-bottom: 1.5rem;
-        }
-
-        .session-detail {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 0.8rem;
-            padding: 8px 0;
-        }
-
-        .detail-icon {
-            background: #667eea;
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.9rem;
-            flex-shrink: 0;
-        }
-
-        .session-status {
-            display: inline-block;
-            padding: 6px 12px;
-            border-radius: 15px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        .status-available {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .status-limited {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .status-full {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .session-actions {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        /* Add Session Modal */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 10000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .modal.show {
-            display: flex;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 15px;
-            max-width: 600px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-            padding: 2rem;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid #e0e0e0;
-        }
-
-        .modal-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .close-btn {
-            background: #ff4757;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 35px;
-            height: 35px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 18px;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        /* Statistics */
-        .stats-section {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-        }
-
-        .stat-card {
-            text-align: center;
-            padding: 1.5rem;
-            background: linear-gradient(145deg, #f0f2ff, #e8ebff);
-            border-radius: 15px;
-            transition: transform 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #667eea;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            color: #666;
-            font-weight: 500;
-        }
-
-        /* Notification */
-        .notification {
-            position: fixed;
-            top: 100px;
-            right: 20px;
-            background: #28a745;
-            color: white;
-            padding: 15px 20px;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            transform: translateX(400px);
-            transition: transform 0.3s ease;
-            z-index: 10001;
-            max-width: 300px;
-        }
-
-        .notification.show {
-            transform: translateX(0);
-        }
-
-        .notification.error {
-            background: #dc3545;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-            
-            .page-title {
-                font-size: 2rem;
-            }
-            
-            .filters-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .sessions-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .filter-actions {
-                flex-direction: column;
-            }
-            
-            .session-actions {
-                flex-direction: column;
-            }
-        }
-
-        /* Loading Animation */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #667eea;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 3rem;
-            color: #666;
-        }
-
-        .empty-state-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-        }
-    </style>
-</head>
-<body>
-    <!-- Header -->
-    <header>
-        <nav>
-            <a href="#" class="logo">🎓 TakwinSearch</a>
-            <ul class="nav-links">
-                <li><a href="centre_de_formation.html" onclick="goHome()">Accueil</a></li>
-                <li><a href="#" onclick="showAllCenters()">Centres</a></li>
-                <li><a href="#" onclick="showSessions()" style="color: #667eea;">Sessions</a></li>
-                <li><a href="#" onclick="showContact()">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <div class="container">
-        <!-- Page Header -->
-        <div class="page-header">
-            <h1 class="page-title">Sessions de Formation</h1>
-            <p class="page-subtitle">
-                Découvrez toutes les sessions de formation disponibles dans les centres partenaires. 
-                Inscrivez-vous aux formations qui vous intéressent et planifiez votre avenir professionnel.
-            </p>
-        </div>
-
-        <!-- Statistics -->
-        <div class="stats-section">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number" id="totalSessions">0</div>
-                    <div class="stat-label">Sessions Disponibles</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="totalCenters">8</div>
-                    <div class="stat-label">Centres Partenaires</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="totalSpecialties">32</div>
-                    <div class="stat-label">Spécialités Offertes</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="totalPlaces">0</div>
-                    <div class="stat-label">Places Disponibles</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Filters -->
-        <div class="filters-section">
-            <h3 style="margin-bottom: 1.5rem; color: #333;">🔍 Filtrer les Sessions</h3>
-            <div class="filters-grid">
-                <div class="filter-group">
-                    <label for="filterSpecialty">Spécialité</label>
-                    <select id="filterSpecialty">
-                        <option value="">Toutes les spécialités</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label for="filterCenter">Centre</label>
-                    <select id="filterCenter">
-                        <option value="">Tous les centres</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label for="filterCity">Ville</label>
-                    <select id="filterCity">
-                        <option value="">Toutes les villes</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label for="filterMonth">Mois de début</label>
-                    <select id="filterMonth">
-                        <option value="">Tous les mois</option>
-                    </select>
-                </div>
-            </div>
-            <div class="filter-actions">
-                <button class="btn btn-primary" onclick="filterSessions()">🔍 Filtrer</button>
-                <button class="btn btn-secondary" onclick="resetFilters()">🔄 Réinitialiser</button>
-                <button class="btn btn-success" onclick="showAddSessionModal()">➕ Ajouter Session</button>
-            </div>
-        </div>
-
-        <!-- Sessions List -->
-        <div id="sessionsContainer">
-            <div class="sessions-grid" id="sessionsGrid">
-                <!-- Sessions will be loaded here -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Add Session Modal -->
-    <div class="modal" id="addSessionModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title">Ajouter une Nouvelle Session</h2>
-                <button class="close-btn" onclick="hideAddSessionModal()">&times;</button>
-            </div>
-            <form id="addSessionForm">
-                <div class="form-group">
-                    <label for="sessionSpecialty">Spécialité *</label>
-                    <select id="sessionSpecialty" required>
-                        <option value="">Sélectionner une spécialité</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="sessionCenter">Centre *</label>
-                    <select id="sessionCenter" required>
-                        <option value="">Sélectionner un centre</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="sessionStartDate">Date de début *</label>
-                    <input type="date" id="sessionStartDate" required>
-                </div>
-                <div class="form-group">
-                    <label for="sessionEndDate">Date de fin *</label>
-                    <input type="date" id="sessionEndDate" required>
-                </div>
-                <div class="form-group">
-                    <label for="sessionLocation">Lieu *</label>
-                    <input type="text" id="sessionLocation" placeholder="Ex: Salle A1, Laboratoire Informatique..." required>
-                </div>
-                <div class="form-group">
-                    <label for="sessionPlaces">Nombre de places *</label>
-                    <input type="number" id="sessionPlaces" min="1" max="50" placeholder="20" required>
-                </div>
-                <div class="form-group">
-                    <label for="sessionPrice">Prix (TND)</label>
-                    <input type="number" id="sessionPrice" min="0" step="10" placeholder="500">
-                </div>
-                <div class="form-group">
-                    <label for="sessionDescription">Description</label>
-                    <textarea id="sessionDescription" rows="4" placeholder="Description de la session, prérequis, objectifs..."></textarea>
-                </div>
-                <div class="filter-actions">
-                    <button type="submit" class="btn btn-success">💾 Enregistrer</button>
-                    <button type="button" class="btn btn-secondary" onclick="hideAddSessionModal()">❌ Annuler</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Notification -->
-    <div class="notification" id="notification"></div>
-
-    <script>
-        // Données des spécialités
-        const specialties = [
+ const specialties = [
             "Technologies de l'Information", "Électronique", "Mécanique Générale", "Réfrigération et Climatisation",
             "Bâtiment et Travaux Publics", "Menuiserie", "Soudure", "Plomberie",
             "Programmation Avancée", "Développement d'Applications Mobiles", "Sécurité Informatique", "Intelligence Artificielle",
@@ -701,7 +66,7 @@
         let filteredSessions = [];
 
         // Initialisation
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             initializeApp();
         });
 
@@ -716,13 +81,13 @@
         }
 
         function setupEventListeners() {
-            document.getElementById('addSessionForm').addEventListener('submit', function(e) {
+            document.getElementById('addSessionForm').addEventListener('submit', function (e) {
                 e.preventDefault();
                 addNewSession();
             });
 
             // Auto-update end date when start date changes
-            document.getElementById('sessionStartDate').addEventListener('change', function() {
+            document.getElementById('sessionStartDate').addEventListener('change', function () {
                 const startDate = new Date(this.value);
                 if (startDate) {
                     const endDate = new Date(startDate);
@@ -1022,7 +387,7 @@
 
         function getSessionStatus(session) {
             const availablePercentage = (session.availablePlaces / session.totalPlaces) * 100;
-            
+
             if (session.availablePlaces === 0) {
                 return { class: 'status-full', text: '❌ Complet' };
             } else if (availablePercentage <= 25) {
@@ -1081,7 +446,7 @@
             document.getElementById('filterCenter').value = '';
             document.getElementById('filterCity').value = '';
             document.getElementById('filterMonth').value = '';
-            
+
             filteredSessions = sessions.slice();
             displaySessions();
             updateStatistics();
@@ -1090,7 +455,7 @@
 
         function showAddSessionModal() {
             document.getElementById('addSessionModal').classList.add('show');
-            
+
             // Set minimum date to today
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('sessionStartDate').min = today;
@@ -1164,7 +529,7 @@
 
             // Simulate registration process
             const confirmed = confirm(`Confirmer l'inscription à la session:\n\n${session.specialty}\n${session.center}\nDébut: ${formatDate(new Date(session.startDate))}\n\nContinuer?`);
-            
+
             if (confirmed) {
                 session.availablePlaces--;
                 saveSessionsToStorage();
@@ -1242,8 +607,8 @@
             // Change the form behavior to edit mode
             const form = document.getElementById('addSessionForm');
             const originalSubmit = form.onsubmit;
-            
-            form.onsubmit = function(e) {
+
+            form.onsubmit = function (e) {
                 e.preventDefault();
                 updateSession(sessionId);
             };
@@ -1273,7 +638,7 @@
 
             const center = trainingCenters.find(c => c.name === centerName);
             const currentSession = sessions[sessionIndex];
-            
+
             // Adjust available places if total places changed
             const placesBooked = currentSession.totalPlaces - currentSession.availablePlaces;
             const newAvailablePlaces = Math.max(0, newTotalPlaces - placesBooked);
@@ -1297,14 +662,14 @@
             displaySessions();
             updateStatistics();
             hideAddSessionModal();
-            
+
             // Reset form behavior
-            document.getElementById('addSessionForm').onsubmit = function(e) {
+            document.getElementById('addSessionForm').onsubmit = function (e) {
                 e.preventDefault();
                 addNewSession();
             };
             document.querySelector('.modal-title').textContent = 'Ajouter une Nouvelle Session';
-            
+
             showNotification('Session modifiée avec succès!', 'success');
         }
 
@@ -1313,7 +678,7 @@
             if (!session) return;
 
             const confirmed = confirm(`Êtes-vous sûr de vouloir supprimer la session:\n\n${session.specialty}\n${session.center}\n\nCette action est irréversible.`);
-            
+
             if (confirmed) {
                 sessions = sessions.filter(s => s.id !== sessionId);
                 saveSessionsToStorage();
@@ -1329,7 +694,7 @@
             const diffTime = Math.abs(end - start);
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             const diffMonths = Math.round(diffDays / 30);
-            
+
             if (diffMonths < 1) {
                 return `${diffDays} jours`;
             } else if (diffMonths < 12) {
@@ -1344,10 +709,10 @@
         function updateStatistics() {
             const totalSessionsEl = document.getElementById('totalSessions');
             const totalPlacesEl = document.getElementById('totalPlaces');
-            
+
             const currentSessions = filteredSessions.length > 0 ? filteredSessions : sessions;
             const totalPlaces = currentSessions.reduce((sum, session) => sum + session.availablePlaces, 0);
-            
+
             totalSessionsEl.textContent = currentSessions.length;
             totalPlacesEl.textContent = totalPlaces;
         }
@@ -1369,7 +734,7 @@
             const notification = document.getElementById('notification');
             notification.textContent = message;
             notification.className = `notification ${type} show`;
-            
+
             setTimeout(() => {
                 notification.classList.remove('show');
             }, 4000);
@@ -1381,11 +746,11 @@
                 modal = document.createElement('div');
                 modal.id = 'globalModal';
                 modal.className = 'modal';
-                
+
                 const modalContent = document.createElement('div');
                 modalContent.className = 'modal-content';
                 modalContent.style.maxWidth = '700px';
-                
+
                 const closeBtn = document.createElement('button');
                 closeBtn.innerHTML = '×';
                 closeBtn.className = 'close-btn';
@@ -1393,17 +758,17 @@
                 closeBtn.style.position = 'absolute';
                 closeBtn.style.top = '15px';
                 closeBtn.style.right = '15px';
-                
+
                 const contentDiv = document.createElement('div');
                 contentDiv.id = 'modalContentArea';
                 contentDiv.style.paddingTop = '1rem';
-                
+
                 modalContent.appendChild(closeBtn);
                 modalContent.appendChild(contentDiv);
                 modal.appendChild(modalContent);
                 document.body.appendChild(modal);
             }
-            
+
             document.getElementById('modalContentArea').innerHTML = content;
             modal.classList.add('show');
         }
@@ -1431,6 +796,3 @@
         function showContact() {
             alert('Redirection vers la page de contact...');
         }
-    </script>
-</body>
-</html>
