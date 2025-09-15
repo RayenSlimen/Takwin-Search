@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-2yk!-!ctbok+pmnlu_51gzijfo4$(-ie^kqjvcpi0fjy_z99=#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['takwin-search.onrender.com']
 
 
 # Application definition
